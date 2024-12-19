@@ -1,0 +1,27 @@
+.main_title{
+    font-size: 50px;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10%;
+
+}
+.selection_table{
+    border-radius: 25px;
+    width: 40%;
+
+    justify-self: center;
+    justify-items: center;
+    background-color: rgb(248, 246, 246);
+    border: 1px solid black;
+}
+.Select_photo img{
+    height: 40%;
+    width: 40%;
+}
+.Select_photo{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+}
