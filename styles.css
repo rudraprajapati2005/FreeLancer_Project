@@ -10,18 +10,35 @@
 .selection_table{
     border-radius: 25px;
     width: 40%;
-
+    display: flex;
     justify-self: center;
-    justify-items: center;
     background-color: rgb(248, 246, 246);
     border: 1px solid black;
+    padding:  1%;
 }
 .Select_photo img{
-    height: 40%;
-    width: 40%;
+    height: inherit;
+    width: 30%;
+    border-radius: 30%;
+    background-color: azure;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.Select_photo img:hover{
+    transform: scale(1.05);
+    transition: 0.5s;
+   
+    
 }
 .Select_photo{
     display: flex;
     flex-direction: row;
     justify-content:space-around;
+}
+.selection_head{
+    display: block;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+
 }
