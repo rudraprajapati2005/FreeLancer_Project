@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web Page</title>
+    <meta name="description" content="A brief description of the page">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Your Name">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}"> <!-- Link to external CSS file -->
+    <script src="{% static 'scripts/script.js' %}" defer></script> <!-- Link to external JavaScript file -->
+</head>
+<body>
+    <font class="main_title">FreeLancer</font>
+   <div class="selection_table">
+    <div class="selection_head">
+        
+        <div>Select any of this two</div>
+        <div >
+            <a href="{% url 'freelancer-signup-page' %}">
+                <img class="Select_photo" src="{% static 'photos/aycwr1yw-removebg-preview.png'%}">
+            </a>
+            <a href="{% url 'client-signup-page' %}">
+                <img class="Select_photo" src="{% static 'photos/cr4weo6a.png'%}">
+            </a>
+        </div>
+        <div>
+            Already have an account? LogIn
+        </div>
+    </div>
+</div>
+</body>
+</html>

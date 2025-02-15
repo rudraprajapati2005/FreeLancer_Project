@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/signup.css'%}"> <!-- Link to external CSS file -->
+    <script src="{% static 'scripts/script.js' %}" defer></script>
+</head>
+<body>
+    <div class="sign">
+         <h1>Business Account</h1>
+         <form action="">
+            <label for="name">Name : </label>
+            <input type="text" id="name" name = "name">
+            <label for="Company">Company Name : </label>
+            <input type="text" name="Company" id="Company" required>
+            <label for="address">Address : </label>
+            <textarea name="address" id="Address"></textarea>
+            <label for="State">State : </label>
+            <select name="state" id="State" required>
+
+                <option value="">Select     </option>
+                <option value="" >
+                    Gujrat
+                </option>
+            </select>
+            <label for="email">Enter Business Email : </label>
+            <input type="email" id="email" name="email">
+            <label for="phone">Phone : </label>
+            <input type="tel" pattern="[789][0-9]{9}" id="phone">
+            <button>submit</button>
+         </form>  
+     </div>
+</body>
+</html>'

@@ -1,0 +1,130 @@
+body{
+    padding: 0px;
+    margin: 0px;
+    height: 100vh;
+}
+.client_home{
+    display: flex;
+    flex-direction: row;
+    height:100vh;
+}
+.client_details{
+    padding: 15px;
+    border-right-color : black;
+ width:fit-content;
+    border-right-style: solid;
+    border-right-width: 2px;
+   
+    display: flex;
+    flex-direction: column;
+}
+.client_details .log_out{
+   margin-top: auto;
+}
+.client_menu_a{
+    text-decoration: inherit;
+    color: inherit;
+    
+}
+
+ td{
+    padding:10px;
+   
+}
+
+.extra div{
+    padding : 5px;
+}
+/* Reset some default styles */
+body, h1, table, th, td, input, textarea, select, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set a light background and text color */
+body {
+    background-color: #f9f9f9; /* Light background color */
+    color: #333; /* Dark text color for contrast */
+    font-family: Arial, sans-serif; /* Set a clean font */
+    line-height: 1.6; /* Improve readability */
+    padding: 20px; /* Add some padding around the body */
+}
+
+/* Style the heading */
+h1 {
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+/* Style the form table */
+table {
+    width: 100%; /* Full width */
+    max-width: 600px; /* Limit the maximum width */
+    margin: 0 auto; /* Center the table */
+    border-collapse: collapse; /* Remove space between cells */
+    background-color: #fff; /* White background for the table */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Style table headers */
+th {
+    background-color: #f2f2f2; /* Light gray background for headers */
+    padding: 10px; /* Padding for headers */
+    text-align: left; /* Align text to the left */
+}
+
+/* Style table cells */
+td {
+    padding: 10px; /* Padding for cells */
+}
+
+/* Style input fields and textarea */
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+    width: 100%; /* Full width */
+    padding: 8px; /* Padding inside input fields */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+}
+
+/* Style the submit button */
+button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+}
+
+/* Change button color on hover */
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+    .extra_in_div{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        background-color: black;
+        color: white;   
+        width: 600px;
+    }
+    .extra_in_div div {
+         border-right: 1px solid white; 
+         display: flex; 
+         align-items: center; 
+
+         /* Center items vertically */ 
+         justify-content: center; 
+         /* Center items horizontally */
+          padding: 10px; 
+          /* Optional: Add some padding for better spacing */
+         }
+    .extra_in_div div:last-child { border-right: none; /* Remove the border from the last item */ }
