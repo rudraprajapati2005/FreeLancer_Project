@@ -1,12 +1,10 @@
 from django.db import models
 
-# Create your models here.
+class Freelancer(models.Model):
+    name = models.CharField(max_length=255,unique=False)
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=255, unique=True)
+    password = models.CharField(max_length=255)
+    skills = models.TextField()  # Store the skills as a comma-separated string
 
-#table for storing different freelancer details:
-
-class freelancer_detail(models.Model):
-    freelancer_id=models.AutoField(primary_key=True)
-    user_id = models.CharField(max_length=50,unique=True)
-    password=models.CharField(max_length=25)
-    name=models.CharField(max_length=50)
     

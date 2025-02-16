@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web Page</title>
-    <meta name="description" content="A brief description of the page">
-    <meta name="keywords" content="HTML, CSS, JavaScript">
-    <meta name="author" content="Your Name">
+    <title>Document</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css'%}"> <!-- Link to external CSS file -->
-    <script src="{% static 'scripts/script.js' %}" defer></script> <!-- Link to external JavaScript file -->
+    <link rel="stylesheet" href="{% static 'css/index.css'%}">
 </head>
 <body>
-    <font class="main_title">FreeLancer</font>
-   <div class="selection_table">
-    <div class="selection_head">
-        
-        <div>Select any of this two</div>
-        <div >
-            <a href="{% url 'freelancer-signup-page' %}">
-                <img class="Select_photo" src="{% static 'photos/aycwr1yw-removebg-preview.png'%}">
-            </a>
+     <div class="content">
+        <h1>Join as Businessman or Freelancer</h1>
+
+        <div class="selection">
             <a href="{% url 'client-signup-page' %}">
-                <img class="Select_photo" src="{% static 'photos/cr4weo6a.png'%}">
+                <div class="div" >
+                    <img src="{% static 'photos/assets/businessman-svgrepo-com.svg' %}" alt="Businessman">
+                    <h2>I am businessman</h2>
+                    <p>
+                        I need skilled professionals to bring my ideas to life.
+                        Let's connect and get the job done! </p>
+                </div>
+            </a>
+            <a href="{% url 'freelancer-signup-page' %}">
+                <div class="div">
+                    <img src="{%static 'photos/assets/icons8-freelance-58.png'%}" alt="Freelancer">
+                    <h2>I am Freelancer.</h2>
+                    <p>I'm looking for exciting projects that match my expertise.
+                        Let's collaborate and build something amazing!</p>
+                </div>
             </a>
         </div>
-        <div>
-            Already have an account? LogIn
-        </div>
-    </div>
-</div>
+     </div>
 </body>
 </html>

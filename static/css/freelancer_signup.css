@@ -1,19 +1,17 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #c9ca9b;
-    margin: 0;
-    padding: 0;
-}
 
 .container {
     width: 300px;
     margin: 50px auto;
     padding: 20px;
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
+}
+.container:hover{
+    transform: scale(1.02);
+    transition: transform 1.5s;
+}
 h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -47,4 +45,10 @@ button {
 
 button:hover {
     background-color: #218838;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 1px;
+    font: optional;
 }

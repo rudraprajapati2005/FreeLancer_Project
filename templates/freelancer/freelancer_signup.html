@@ -5,12 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freelancer Sign Up</title>
     {% load static %}
+        <style>
+ body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(
+                to bottom right, 
+                rgb(246, 246, 131) 0%,
+                rgba(238, 238, 157, 0.2) 40%
+              );
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 80vh; /* Set width to the desired size */
+    height: 80vh; /* Set height to the desired size */
+    background: url('{% static "photos/bg-img/Freelancerlogowithaperson.png" %}') no-repeat center;
+    background-size: contain; /* Ensure the image is contained within the specified size */
+    opacity: 1; /* Full opacity to prevent blending with the gradient */
+    z-index: -1;
+}
+    </style>
     <link rel="stylesheet" href="{% static 'css/freelancer_signup.css' %}">
 </head>
 <body>
     <div class="container">
         <h1>Freelancer Sign Up</h1>
-        <form action="#" method="POST">
+        <form action="{% url 'freelancer-details-page'%}" method="POST">
+            {% csrf_token %}
             <label for="name">Full Name:</label>
             <input type="text" id="name" name="name" placeholder="Your Full Name" required>
 
@@ -19,14 +51,17 @@
 
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter user name" required>
+            {% if error_username %}
+                <p class="error-message">{{ error_username }}</p>
+            {% endif %}
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Set a strong password" required>
 
-
             <label for="skills">Select Your Skills:</label>
             <div id="selectedSkills"></div> <!-- This will display the selected skills as removable tags -->
             <br>
+            <input type="hidden" id="selected_Skills" name="selected_skills">
             <input type="text" id="searchSkills" placeholder="Search for skills...">
             <ul id="skillsList" style="list-style-type: none; padding: 0;"></ul>
             
@@ -59,6 +94,7 @@
                 const searchInput = document.getElementById('searchSkills');
                 const skillsList = document.getElementById('skillsList');
                 const selectedSkillsContainer = document.getElementById('selectedSkills');
+                const hiddenInput = document.getElementById('selected_Skills');
                 let selectedSkills = [];
             
                 searchInput.addEventListener('input', function() {
@@ -117,14 +153,15 @@
                         });
                         selectedSkillsContainer.appendChild(skillTag);
                     });
+
+                    // Update the hidden input field's value
+                    hiddenInput.value = selectedSkills.map(skill => skill.value).join(',');
                 }
+
             </script>
-            
-            
-            
 
             <button type="submit">Sign Up</button>
         </form>
-    </div>
+        </div>
 </body>
 </html>
