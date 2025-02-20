@@ -48,7 +48,9 @@ body::before {
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="@googleAccount" required>
-
+            {% if error_email %}
+            <p class="error-message">{{ error_email }}</p>
+            {% endif %}
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter user name" required>
             {% if error_username %}
