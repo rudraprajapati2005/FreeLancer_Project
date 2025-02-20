@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path,include
 from . import views
 urlpatterns = [
-
     path("",views.home),
     path("freelancer-signup",views.freelancer_signup,name='freelancer-signup-page'),
     path("details",views.show_details_freelancer,name='freelancer-details-page'),

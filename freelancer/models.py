@@ -7,4 +7,12 @@ class Freelancer(models.Model):
     password = models.CharField(max_length=255)
     skills = models.TextField()  # Store the skills as a comma-separated string
 
-    
+
+class Client(models.Model):
+    name = models.CharField(max_length=255,unique=False)
+    companyname = models.CharField(max_length=255,null=False,blank=False)
+    address = models.CharField(max_length=1024,blank=False,null=False)
+    state = models.CharField(max_length=255,blank=False, null=False)
+    businessEmail = models.EmailField(unique=True)
+    phone = models.TextField(max_length=15, null=False, blank=False)
+

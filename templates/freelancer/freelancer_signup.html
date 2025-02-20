@@ -28,11 +28,11 @@ body::before {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 80vh; /* Set width to the desired size */
-    height: 80vh; /* Set height to the desired size */
+    width: 80vh;
+    height: 80vh;
     background: url('{% static "photos/bg-img/Freelancerlogowithaperson.png" %}') no-repeat center;
-    background-size: contain; /* Ensure the image is contained within the specified size */
-    opacity: 1; /* Full opacity to prevent blending with the gradient */
+    background-size: contain;
+    opacity: 1;
     z-index: -1;
 }
     </style>
@@ -47,7 +47,7 @@ body::before {
             <input type="text" id="name" name="name" placeholder="Your Full Name" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="@googleAccount" required>
+            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
 
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter user name" required>
@@ -105,7 +105,11 @@ body::before {
                         return;
                     }
             
-                    const filteredSkills = allSkills.filter(skill => skill.text.toLowerCase().includes(query));
+                    const filteredSkills = allSkills.filter(skill => {
+                        if (selectedSkills.find(s => s === skill) === undefined) {
+                            return skill.text.toLowerCase().includes(query);
+                        }
+                    });
             
                     filteredSkills.forEach(skill => {
                         const listItem = document.createElement('li');

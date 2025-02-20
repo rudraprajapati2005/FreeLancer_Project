@@ -1,6 +1,9 @@
 from django.shortcuts import render,HttpResponse
 from .models import Freelancer
 
+from django.shortcuts import render, redirect
+from .forms import FreelancerForm
+
 # Create your views here.
 def home(request):
     return render(request,'user/main_page.html')
@@ -16,9 +19,6 @@ def client_home_page(request):
 
 def client_add_project(request):
     return render(request,"client/add_project_client.html")
-
-from django.shortcuts import render, redirect
-from .forms import FreelancerForm
 
 def freelancer_signup(request):
     if request.method == "POST":
