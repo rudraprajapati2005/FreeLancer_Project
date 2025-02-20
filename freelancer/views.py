@@ -80,9 +80,9 @@ def upload_profile_freelancer(request):
                 photo_update=Photo.objects.get(username=username).update(image=request.FILES['image'])
             freelancer['profile_pic']=photo_update['image']
             return render(request,'freelancer/freelancer_homepage.html',{'freelancer':freelancer})
-        username = request.POST.get('username', 'Default Title')  # You can modify as needed
-        image = request.FILES.get('image')
-        if image:
+    username = request.POST.get('username', 'Default Title')  # You can modify as needed
+    image = request.FILES.get('image')
+    if image:
             Photo.objects.create(username=username, image=image)
             freelancer['profile_pic']=image
             return render(request,'freelancer/freelancer_homepage.html',{'freelancer':freelancer})
