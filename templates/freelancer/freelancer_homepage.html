@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your Name] - Freelance [Your Profession]</title>
+    <title>[Your Name] - Freelancer [Your Profession]</title>
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Link to your CSS file -->
@@ -60,10 +60,10 @@
     </style>
 </head>
 <body>
-{% if request.session.username  %}
+{% if freelancer.username%}
 <header>
     <img src="[Your Profile Picture URL]" alt="[Your Name]">
-    <h1>{{request.session.name}}</h1>
+    <h1>{{ freelancer.username}}</h1>
     <h2>Freelance [Your Profession]</h2>
 </header>
 
@@ -194,8 +194,6 @@
         });
     });
 </script>
-{% else %}
-    <h1>Freelancer already exists</h1>
-{% endif %}
+{%endif%}
 </body>
 </html>

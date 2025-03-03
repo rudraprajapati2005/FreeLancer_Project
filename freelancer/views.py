@@ -106,9 +106,12 @@ def freelancer_login(request):
             freelancer=Freelancer.objects.get(username=username)
             if(freelancer.password==password):
                 request.session['freelancer']=freelancer.username
+                request.session['username']=freelancer.username
                 return render(request,"freelancer/freelancer_homepage.html",{'freelancer':freelancer})
             else:
-                return render(request,"freelancer/freelancer_login.html")
+                error={'error_password':'Password is incorrect'}
+                return render(request,"freelancer/freelancer_login.html",error)
         else:
-            return render(request,"freelancer/freelancer_login.html")
-    return HttpResponse("404 - Not Found")
+            error={'error_username':'Username does not exist'}
+            return render(request,"freelancer/freelancer_login.html",error)
+    return render(request,"freelancer/freelancer_login.html")

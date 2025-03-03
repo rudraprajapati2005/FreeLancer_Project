@@ -41,17 +41,23 @@ body::before {
 <body>
     <div class="container">
         <h1>Login  </h1>
-        <form action="{% url 'freelancer-login-check'%}" method="POST">
+        <form action="{% url 'freelancer-login-page'%}" method="POST">
             {% csrf_token %}
            
             <label for="username"></label>
             <input type="text" id="username_email" name="username_email" placeholder="Enter username or Email" required>
             {% if error_username %}
                 <p class="error-message">{{ error_username }}</p>
-            {% endif %}
+            {% else %}
             &nbsp;
+            {% endif %}
             <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
             &nbsp;
+            {% if error_password %}
+                <p class="error-message">{{ error_password }}</p>
+            {% else %}
+            &nbsp;
+            {% endif %}
             <button type="submit" >Login</button>
         </form>
         </div>

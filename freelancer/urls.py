@@ -10,5 +10,5 @@ urlpatterns = [
     path("client-home",views.client_home_page,name='client-home-page'),
     path("client-home/add-project",views.client_add_project,name='client-add-project'),
     path("upload-profile-freelancer",views.upload_profile_freelancer,name='upload-profile-freelancer'),
-    path("freelancer-login",views.freelancer_login,name='freelancer-login-check'),
+    path("freelancer-login",views.freelancer_login,name='freelancer-login-page'),
 ]
