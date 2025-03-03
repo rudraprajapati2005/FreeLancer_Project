@@ -78,17 +78,37 @@ def upload_profile_freelancer(request):
                 username=request.session['username']
                 freelancer=request.session['my_freelancer_dic']
                 photo_update=Photo.objects.get(username=username).update(image=request.FILES['image'])
-            freelancer['profile_pic']=photo_update['image']
-            return render(request,'freelancer/freelancer_homepage.html',{'freelancer':freelancer})
+                freelancer['profile_pic']=photo_update['image']
+                return render(request,'freelancer/freelancer_homepage.html',{'freelancer':freelancer})
     username = request.POST.get('username', 'Default Title')  # You can modify as needed
     image = request.FILES.get('image')
-    if image:
+    if image and not Photo.objects.filter(username=username).exists():
             Photo.objects.create(username=username, image=image)
+            Photo.save()
             freelancer['profile_pic']=image
             return render(request,'freelancer/freelancer_homepage.html',{'freelancer':freelancer})
+    elif Photo.objects.filter(username=username).exists():
+        photo_update=Photo.objects.get(username=username)
+        freelancer['profile_pic']=photo_update.image
+        return render(request,'freelancer/freelancer_homepage.html',{'freelancer':freelancer})
     else:
         form = PhotoForm()
     freelancer_details={}
     form = PhotoForm()
     return render(request,'freelancer/freelancer_homepage.html',{'freelancer_details' :freelancer_details,'form':form})
 
+
+def freelancer_login(request):
+    if(request.method=="POST"):
+        username=request.POST.get('username_email')
+        password=request.POST.get('password')
+        if Freelancer.objects.filter(username=username).exists():
+            freelancer=Freelancer.objects.get(username=username)
+            if(freelancer.password==password):
+                request.session['freelancer']=freelancer.username
+                return render(request,"freelancer/freelancer_homepage.html",{'freelancer':freelancer})
+            else:
+                return render(request,"freelancer/freelancer_login.html")
+        else:
+            return render(request,"freelancer/freelancer_login.html")
+    return HttpResponse("404 - Not Found")
