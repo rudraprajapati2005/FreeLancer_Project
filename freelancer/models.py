@@ -11,7 +11,6 @@ class Freelancer(models.Model):
 
     
 class   Photo(models.Model):
-    #python -m pip install Pillow , if PIllow is not Installed
     username=models.CharField(max_length=255,unique=True)
     image = models.ImageField(upload_to='photos/profile_pic')
 
