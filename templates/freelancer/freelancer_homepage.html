@@ -88,8 +88,8 @@
     <h2>About Me</h2>
     
     <p>
-        {% if 'profile_pic' in freelancer%}
-            <img src="{% static freelancer.profile_pic %}">
+        {% if freelancer.profile_pic %}
+            <img src="{{  freelancer.profile_pic.url }}">
         {% endif%}
     </p>
     <script>
@@ -97,7 +97,7 @@
             document.getElementById('uploadForm').submit();
         }
     </script>
-        {% if 'profile_pic' not  in freelancer %}
+        {% if not freelancer.profile_pic%}
         <form id="uploadForm" action="{% url 'upload-profile-freelancer' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
            

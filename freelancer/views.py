@@ -1,6 +1,8 @@
 from django.shortcuts import render,HttpResponse
 from .models import Freelancer,Photo
 from .forms import PhotoForm,FreelancerForm
+from django.forms.models import model_to_dict
+
 # Create your views here.
 def home(request):
     return render(request,'user/main_page.html')
@@ -106,7 +108,8 @@ def freelancer_login(request):
             freelancer=Freelancer.objects.get(username=username)
             if(freelancer.password==password):
                 request.session['freelancer']=freelancer.username
-                request.session['username']=freelancer.username
+                request.session['username']=freelancer.username 
+                request.session['my_freelancer_dic']=model_to_dict(freelancer)
                 return render(request,"freelancer/freelancer_homepage.html",{'freelancer':freelancer})
             else:
                 error={'error_password':'Password is incorrect'}
