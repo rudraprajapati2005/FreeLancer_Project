@@ -7,6 +7,13 @@ class Freelancer(models.Model):
     password = models.CharField(max_length=255)
     skills = models.TextField()  # Store the skills as a comma-separated string
 
+    
+
+    
+class   Photo(models.Model):
+    #python -m pip install Pillow , if PIllow is not Installed
+    username=models.CharField(max_length=255,unique=True)
+    image = models.ImageField(upload_to='photos/profile_pic')
 
 class Client(models.Model):
     name = models.CharField(max_length=255,unique=False)
@@ -14,5 +21,4 @@ class Client(models.Model):
     address = models.CharField(max_length=1024,blank=False,null=False)
     state = models.CharField(max_length=255,blank=False, null=False)
     businessEmail = models.EmailField(unique=True)
-    phone = models.TextField(max_length=15, null=False, blank=False)
-
+    phone = models.TextField(max_length=15, null=False,blank=False)

@@ -29,3 +29,57 @@
     justify-items: center;
 
 }
+
+.upload-profile-freelancer{
+    text-decoration: none;
+    background-color: rgb(43, 184, 255);
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 15px;
+    color :white;
+    border-color: rgb(43, 184, 255);   
+}
+
+        .file-input-wrapper {
+            position: relative;
+            width: 200px;
+            height: 50px;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Custom button styling */
+        .file-input-button {
+            width: 100%;
+            height: 100%;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .file-input-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hidden file input styling */
+        .file-input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+   
+  

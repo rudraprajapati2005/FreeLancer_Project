@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer Sign Up</title>
+    {% load static %}
+        <style>
+ body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(
+                to bottom right, 
+                rgb(246, 246, 131) 0%,
+                rgba(238, 238, 157, 0.2) 40%
+              );
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 80vh; /* Set width to the desired size */
+    height: 80vh; /* Set height to the desired size */
+    background: url('{% static "photos/bg-img/Freelancerlogowithaperson.png" %}') no-repeat center;
+    background-size: contain; /* Ensure the image is contained within the specified size */
+    opacity: 1; /* Full opacity to prevent blending with the gradient */
+    z-index: -1;
+}
+    </style>
+    <link rel="stylesheet" href="{% static 'css/freelancer_signup.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Login  </h1>
+        <form action="{% url 'freelancer-login-page'%}" method="POST">
+            {% csrf_token %}
+           
+            <label for="username"></label>
+            <input type="text" id="username_email" name="username_email" placeholder="Enter username or Email" required>
+            {% if error_username %}
+                <p class="error-message">{{ error_username }}</p>
+            {% else %}
+            &nbsp;
+            {% endif %}
+            <input type="password" id="password" name="password" placeholder="Enter Your Password" required>
+            &nbsp;
+            {% if error_password %}
+                <p class="error-message">{{ error_password }}</p>
+            {% else %}
+            &nbsp;
+            {% endif %}
+            <button type="submit" >Login</button>
+        </form>
+        </div>
+</body>
+</html>
