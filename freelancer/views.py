@@ -1,9 +1,11 @@
 from django.shortcuts import render,HttpResponse
-from .models import Freelancer
+from .models import Freelancer,Photo
+from .forms import PhotoForm,FreelancerForm
 
 # Create your views here.
 def home(request):
-    return render(request,'user/main_page.html')
+        return render(request, "user/Home.html")
+
 
 # def freelancer_signup(request):
 #     return render(request,'freelancer/freelancer_signup.html')
@@ -38,7 +40,7 @@ def show_details_freelancer(request):
     error={}
     freelancer_details={}
     username = request.POST.get('username')
-    email = request.POST.get('email')    
+    email = request.POST.get('email')
     if request.method == 'POST':
         name = request.POST.get('name')
         request.session['name']=name
@@ -116,3 +118,9 @@ def freelancer_login(request):
             error={'error_username':'Username does not exist'}
             return render(request,"freelancer/freelancer_login.html",error)
     return render(request,"freelancer/freelancer_login.html")
+
+def user_type(request):
+    return render(request, 'user/user_type.html')
+
+def browse_projects(request):
+    return render(request, 'user/browse_projects.html')

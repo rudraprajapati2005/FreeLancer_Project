@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.row{
+	display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+ul{
+	list-style: none;
+}
+.footer {
+    background: linear-gradient(-45deg, #E0F7FA, #F0FFFF, #E0FFFF);
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Ensures spacing */
+    flex-wrap: wrap; /* Allows wrapping if needed */
+    padding: 20px 0; /* Adds some padding for better spacing */
+}
+footer{
+    margin-top : 100px;
+    margin-right: 0;
+    padding: 0; 
+}
+
+.footer-col {
+    flex: 1;  /* Allows equal distribution */
+    min-width: 200px; /* Prevents columns from getting too small */ 
+    display: flex;
+    flex-direction: column;
+}
+footer .container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-col h4{
+	font-size: 18px;
+	color: #585656;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+}
+.footer-col h4::before{
+	content: '';
+	position: absolute;
+	left:0;
+	bottom: -10px;
+	background-color: #e91e63;
+	height: 2px;
+	box-sizing: border-box;
+	width: 50px;
+}
+.footer-col ul li:not(:last-child){
+	margin-bottom: 10px;
+}
+.footer-col ul li a{
+	font-size: 16px;
+	text-transform: capitalize;
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: 400;
+	color: #404040;
+	display: block;
+	transition: all 0.3s ease;
+}
+.footer-col ul li a:hover{
+	color: #535151;
+	padding-left: 8px;
+}
+.footer-col .social-links a {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	background-color: rgba(92, 89, 89, 0.2);
+	margin:0 10px 10px 0;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 50%;
+	color: #ffffff;
+	transition: all 0.5s ease;
+}
+.footer-col .social-links a:hover{
+	color: #24262b;
+	background-color: #ffffff;
+}
+
+/*responsive*/
+@media(max-width: 767px){
+  .footer-col{
+    width: 50%;
+    margin-bottom: 30px;
+}
+}
+@media(max-width: 574px){
+  .footer-col{
+    width: 100%;
+}
+}
+
+
+
+@media (max-width: 767px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-col {
+        width: 80%;  /* Keeps it aligned */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+.last{
+    position: relative;
+    top : 4%;
+    font-weight: 500;
+    padding-bottom: 14px;
+}
+.container{
+    padding-bottom: 0!important;
+}
+.profile-info a{
+    background-color: aqua !important;
+}
+

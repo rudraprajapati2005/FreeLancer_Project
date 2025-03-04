@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Freelancer</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/Home-Hero.css' %}">
+        <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+        <link rel="stylesheet" href="{% static 'css/Reach-information.css' %}">
+        <link rel="stylesheet" href="{% static 'css/Footer.css' %}">
+        <link rel="stylesheet" href="{% static 'css/joinus-button.css' %}"> 
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">
+                    <img src=" " alt="Logo">
+                </a>
+            </div>
+            <div class="navlinks">
+                <ul id="navs">
+                    <li><a href="Home.html">Home</a></li>
+                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="b">Manage Projects</a></li>
+                    {% endif %}
+                    <li><a href="c">Freelancers</a></li>
+                    <li><a href="d">About</a></li>
+                </ul>
+                
+            {% if user.is_authenticated %}
+                <!-- profile -->
+                <!-- need to add here photo of actual user -->
+                <div class="profile-container">
+                    <a href="" class="profile-icon">
+                        <img src="{% static 'photos/assets/Freelancer-2.png' %}" alt="">
+                    </a>
+                </div>
+                {% endif %}
+
+
+                <div class="postproject">
+                    <!-- {% if user.is_authenticated %} -->
+                    <!-- {% endif %} -->
+                    <a href="{% url 'user_type' %}">Hire a Freelancer</a>
+                </div>
+            </div>
+        </div>
+        <div class="Herosection">
+            <div class="left">
+                <div class="text-container">
+                    <h1 class="Head">
+                        <span class="prefix">Hire The </span>
+                        <div class="message">
+                            <div class="word1" id="word1">Top Rated Freelancers</div>
+                            <div class="word2" id="word2">Skilled & Verified experts</div>
+                            <div class="word3" id="word3">Certified Experts</div>
+                            <div class="word4" id="word4">Best-in-class Talent</div>
+                        </div>
+                    </h1>
+                </div>
+                <div class="desc">
+                    <span>
+                        Connect with top talent from around the world. Post your project, get proposals, and hire the best freelancer in minutes. Whether you need a developer, designer, writer, or marketer-your perfect match is just a click away!
+                    </span>
+                    <a class="Joinus-button" href="{% url 'user_type' %}">Join Us</a>
+                </div>
+            </div>
+            <div class="image">
+                <img src="{% static 'photos/assets/Freelancer-2.png' %}" alt="">
+            </div>
+            </div>
+            <hr class="line1">
+            <div class="reach-information">
+                <div class="col">
+                    <img src="{% static 'photos/assets/Client-reach.png' %}" alt="client">
+                    <div class="head">
+                        <h1 id="clients-count">0</h1>
+                        <h1>+</h1>
+                    </div>
+                    <span>Happy Clients</span>
+                </div>
+                <div class="col" id="freelancer">
+                    <img src="{% static 'photos/assets/Freelancer-reach.png' %}" alt="Freelancers" id="freelancerimg">
+                    <div class="head">
+                            <h1 id="freelancers-count">0</h1>
+                            <h1>+</h1>
+                    </div>
+                    <span>Top Freelancers</span>
+                </div>
+                <div class="col">
+                    <img src="{% static 'photos/assets/Project-reach.png' %}" alt="Projects">
+                    <div class="head">
+                        <h1 id="projects-count">0</h1>
+                        <h1>+</h1>
+                    </div>
+                    <span>Active Projects</span>
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <!-- Company Info -->
+                        <div class="footer-col">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">How It Works</a></li>
+                                <li><a href="#">Success Stories</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+            
+                        <!-- For Clients -->
+                        <div class="footer-col">
+                            <h4>For Clients</h4>
+                            <ul>
+                                <li><a href="#">Find Freelancers</a></li>
+                                <li><a href="#">Post a Project</a></li>
+                                <li><a href="#">Manage Projects</a></li>
+                                <li><a href="#">Payment & Security</a></li>
+                            </ul>
+                        </div>
+            
+                        <!-- For Freelancers -->
+                        <div class="footer-col">
+                            <h4>For Freelancers</h4>
+                            <ul>
+                                <li><a href="#">Browse Jobs</a></li>
+                                <li><a href="#">Freelancer Guide</a></li>
+                                <li><a href="#">Earn Money</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                        </div>
+            
+                        <!-- Follow Us -->
+                        <div class="footer-col">
+                            <h4>Follow Us</h4>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+           <span class="last">
+                Copyright © 2025 Freelancer. All rights reserved.
+           </span>
+        </div>
+    </div>
+    <script src="{% static 'scripts/Home.js' %}"></script>
+    <script src="{% static 'scripts/Joinus-button.js' %}"></script>
+    <script src="{% static 'scripts/Reach-information.js' %}"></script>
+
+</body>
+</html>

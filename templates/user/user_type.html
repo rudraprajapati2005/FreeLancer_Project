@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/index.css'%}">
+    <link rel="stylesheet" href="{% static 'css/user_type.css' %}">
 </head>
 <body>
      <div class="content">
@@ -13,7 +13,7 @@
 
         <div class="selection">
             <a href="{% url 'client-signup-page' %}">
-                <div class="div" >
+                <div class="div">
                     <img src="{% static 'photos/assets/businessman-svgrepo-com.svg' %}" alt="Businessman">
                     <h2>I am businessman</h2>
                     <p>
@@ -23,7 +23,7 @@
             </a>
             <a href="{% url 'freelancer-signup-page' %}">
                 <div class="div">
-                    <img src="{%static 'photos/assets/icons8-freelance-58.png'%}" alt="Freelancer">
+                    <img src="{% static 'photos/assets/icons8-freelance-58.png' %}" alt="Freelancer">
                     <h2>I am Freelancer.</h2>
                     <p>I'm looking for exciting projects that match my expertise.
                         Let's collaborate and build something amazing!</p>
