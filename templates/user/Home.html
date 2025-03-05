@@ -26,7 +26,7 @@
                     {% if user.is_authenticated %}
                     <li><a href="b">Manage Projects</a></li>
                     {% endif %}
-                    <li><a href="c">Freelancers</a></li>
+                    <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
                     <li><a href="d">About</a></li>
                 </ul>
                 

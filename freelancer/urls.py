@@ -12,4 +12,5 @@ urlpatterns = [
     path("freelancer-login",views.freelancer_login,name='freelancer-login-page'),
     path("user-type", views.user_type, name='user_type'),
     path("browse_projects", views.browse_projects, name="browse_projects"),
+    path("Freelancers", views.view_freelancers, name="view_freelancers"),
 ]
