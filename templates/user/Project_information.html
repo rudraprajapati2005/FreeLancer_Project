@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/Project_information.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">
+                    <img src="assets/logo.png" alt="Logo">
+                </a>
+            </div>
+            <div class="navlinks">
+                <ul id="navs">
+                    <li><a href="Home.html">Home</a></li>
+                    <li><a href="b">Browse Projects</a></li>
+                    <li><a href="c">Freelancers</a></li>
+                    <li><a href="d">About</a></li>
+                </ul>
+            
+               <div class="postproject">
+                    <a href="#">Hire a Freelancer</a>
+                </div>
+            </div>
+        </div>
+         
+        <!-- assuming that 'project' object passed from django views -->
+        <div class="Projectinfo">
+             <div class="tabs">
+                <h3>Details</h3>
+                <h3>Proposals</h3>
+             </div>
+            <div class="tab1-project-info">
+                
+                <div class="project-details">
+                    <div class="details">
+                        <!-- {{project.title}} -->
+                        <h2 class="project-heading"> 
+                                This is project title 
+                        </h2>
+                        <span class="project-description">
+                            <!-- {{project.description}} -->
+                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi distinctio delectus magnam in. Officiis, rem magnam? Dolorum doloribus eum, placeat corporis ducimus reiciendis!
+                             <br>
+                             <br>
+                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam eaque incidunt inventore cupiditate dolores soluta earum quibusdam quisquam, repudiandae ipsam odio laborum, harum nisi.
+                             <br>
+                             <br>
+                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae impedit debitis quia omnis accusantium sit minus nostrum ad officiis. Est corrupti debitis reiciendis a ullam nobis voluptatibus, labore maiores voluptate sunt fuga at suscipit vitae alias ratione? Expedita magnam error minus inventore culpa.
+                        </span>
+
+                        <div class="skills">
+                            <h2>Skills Required</h2>
+                            <div class="tags-container">
+                                <!-- {%  skills = ['c programming'] %} -->
+                                 <!-- {%   for skill in skills %} -->
+                                    <!-- <span class="tag">{{ skill }}</span> -->
+                                    <span class="tag">C programming</span>
+                                    <span class="tag">Spring boot</span>
+                                    <span class="tag">Blockchain</span>
+                                <!-- {% endfor %} -->
+                            </div>
+                        </div>
+
+                        <div class="Bids">
+                            <div class="box">
+                                <h4>Number of bids</h4>
+                                <!-- <span>{{Project.bids}}</span> -->
+                                 <span>4</span>
+                            </div>
+                            <div class="box">
+                                <h4>Avarage Bid</h4>
+                                <!-- <span>{{Project.AvarageBid}}</span> -->
+                                 <span>$1500 USD.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="client-info">
+                        <h2>Client Information</h2>
+                        <div class="client-card">
+                            <div class="client-details">
+                                <h3 class="client-name">John Doe</h3>  <!-- Replace with {{project.client.name}} -->
+                                <p class="client-location">📍 New York, USA</p> <!-- Replace with {{project.client.location}} -->
+                                <p class="client-rating">⭐ 4.8 (25 Reviews)</p>  <!-- Replace with {{project.client.rating}} -->
+                            </div>
+                            <div class="client-meta">
+                                <p><strong>Projects Posted:</strong> 10</p> <!-- Replace with {{project.client.total_projects}} -->
+                                <p><strong>Member Since:</strong> 2020</p> <!-- Replace with {{project.client.member_since}} -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="tab2-project-proposals">
+                <!-- fetch proposals -->
+                 <!-- {% for prop in Project.proposals %} -->
+                 <div class="proposal">
+                    <div class="proposal-header">
+                        <h3 class="bidder-name">John Doe</h3> <!-- {{ prop.bidder_name }} -->
+                        <span class="bid-amount">$1200 USD</span> <!-- {{ prop.bid_amount }} -->
+                    </div>
+                    <p class="proposal-description">
+                        I have 5+ years of experience in web development and can complete this project efficiently.
+                        <!-- {{ prop.description }} -->
+                    </p>
+                    <span class="proposal-time">Submitted: 2 hours ago</span> <!-- {{ prop.submitted_time }} -->
+                </div>
+                <!-- {% endfor %} -->
+            </div>
+         </div>d:\Freelancer-frontend\Browse_Projects.html
+    </div>
+    <script src="Project_information.js"></script>
+</body>
+</html>

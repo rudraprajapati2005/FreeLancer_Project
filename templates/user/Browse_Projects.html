@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Projects</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/Browse_Projects.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Project_information.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">
+                    <img src="" alt="Logo">
+                </a>
+            </div>
+            <div class="navlinks">
+                <ul id="navs">
+                    <li><a href="Home.html">Home</a></li>
+                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="b">Manage Projects</a></li>
+                    {% endif %}
+                    <li><a href="c">Freelancers</a></li>
+                    <li><a href="d">About</a></li>
+                </ul>
+                
+            {% if user.is_authenticated %}
+                <!-- profile -->
+                <!-- need to add here photo of actual user -->
+                <div class="profile-container">
+                    <a href="" class="profile-icon">
+                        <img src="{% static 'photos/assets/Freelancer-2.png' %}" alt="">
+                    </a>
+                </div>
+                {% endif %}
+
+
+                <div class="postproject">
+                    <!-- {% if user.is_authenticated %} -->
+                    <!-- {% endif %} -->
+                    <a href="{% url 'user_type' %}">Hire a Freelancer</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="project-container">
+        
+            <!-- Filtering Section -->
+            <div class="project-filter">
+                <h2>Filters</h2>
+    
+                <!-- Searchable Skill Filter -->
+                <div class="filter-section">
+                    <h3>Filter by Skills</h3>
+                    <input type="text" id="skill-search" placeholder="Search skills...">
+                    <ul id="skill-list"></ul>
+                    <div id="selected-skills"></div>
+                </div>
+    
+                <!-- Apply Filter Button -->
+                <button id="apply-filters">Apply Filters</button>
+                <p>you can remove skill by clicking on that.</p>
+            </div>
+    
+            <!-- Project Section -->
+            <div class="project-content">
+                
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <input type="text" id="project-search" placeholder="Search for projects...">
+                    <!-- <button>Search</button>     -->
+                </div>
+    
+                <!-- Project List -->
+                <div class="project-list">
+                    <a href="#" class="project-card">
+                        <h2>Website Development</h2>
+                        <p><strong>Budget:</strong> $1000 - $1500</p>
+                        <p class="skills"><strong>Skills:</strong> HTML, CSS, JavaScript</p>
+                    </a>
+    
+                    <a href="#" class="project-card">
+                        <h2>AI Chatbot with Python</h2>
+                        <p><strong>Budget:</strong> $800 - $1200</p>
+                        <p class="skills"><strong>Skills:</strong> Python, AI/ML</p>
+                    </a>
+    
+                    <a href="#" class="project-card">
+                        <h2>E-commerce Website</h2>
+                        <p><strong>Budget:</strong> $2000 - $3000</p>
+                        <p class="skills"><strong>Skills:</strong> JavaScript, React, Node.js</p>
+                    </a>
+             
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script type="module" src="{% static 'scripts/Browse_projects.js' %}"></script>
+</body>
+</html>
