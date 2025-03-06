@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{% static 'css/Home.css' %}">
         <link rel="stylesheet" href="{% static 'css/Reach-information.css' %}">
         <link rel="stylesheet" href="{% static 'css/Footer.css' %}">
-        <link rel="stylesheet" href="{% static 'css/joinus-button.css' %}"> 
+        <link rel="stylesheet" href="{% static 'css/joinus-button.css' %}">
 </head>
 <body>
     <div class="container">
@@ -26,7 +26,7 @@
                     {% if user.is_authenticated %}
                     <li><a href="b">Manage Projects</a></li>
                     {% endif %}
-                    <li><a href="c">Freelancers</a></li>
+                    <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
                     <li><a href="d">About</a></li>
                 </ul>
                 

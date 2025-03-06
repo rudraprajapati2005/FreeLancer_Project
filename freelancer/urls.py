@@ -14,4 +14,5 @@ urlpatterns = [
     path("user-type", views.user_type, name='user_type'),
     path("browse_projects", views.browse_projects, name="browse_projects"),
     path("client/create_project", views.create_project, name="client-create-project"),
+    path("Freelancers", views.view_freelancers, name="view_freelancers"),
 ]

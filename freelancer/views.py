@@ -251,4 +251,8 @@ def user_type(request):
     return render(request, 'user/user_type.html')
 
 def browse_projects(request):
-    return render(request, 'user/browse_projects.html')
+    return render(request, 'user/Browse_projects.html')
+
+
+def view_freelancers(request):
+    return render(request, 'user/Freelancers.html')
