@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/create_project.css' %}">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- <nav class="top-nav">
+            <div class="nav-brand">Freelancer</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="#" class="nav-link active"><i class="fas fa-plus-circle"></i> Create Project</a>
+                <a href="#" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+            </div>
+        </nav> -->
+
+        <div class="create-project-container">
+            <div class="form-header">
+                <h1><i class="fas fa-project-diagram"></i> Create New Project</h1>
+                <p>Fill in the details below to post your project</p>
+            </div>
+
+            <form method="post" class="project-form" id="projectForm">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="{{ form.title.id_for_label }}">
+                            <i class="fas fa-heading"></i> Project Title
+                        </label>
+                        {{ form.title }}
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-tip">
+                        Keep it clear and concise
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="{{ form.description.id_for_label }}">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                        {{ form.description }}
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-tip">
+                        Detailed description helps attract better proposals
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <div class="input-group">
+                            <label for="{{ form.category.id_for_label }}">
+                                <i class="fas fa-tag"></i> Category
+                            </label>
+                            {{ form.category }}
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group half">
+                        <div class="input-group">
+                            <label for="{{ form.budget.id_for_label }}">
+                                <i class="fas fa-dollar-sign"></i> Budget
+                            </label>
+                            {{ form.budget }}
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <label for="{{ form.skills_required.id_for_label }}">
+                            <i class="fas fa-tools"></i> Required Skills
+                        </label>
+                        {{ form.skills_required }}
+                        <span class="focus-border"></span>
+                    </div>
+                    <div class="form-tip">
+                        Separate skills with commas
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <div class="input-group">
+                            <label for="{{ form.deadline.id_for_label }}">
+                                <i class="fas fa-calendar-alt"></i> Deadline
+                            </label>
+                            {{ form.deadline }}
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group half">
+                        <div class="input-group">
+                            <label for="{{ form.status.id_for_label }}">
+                                <i class="fas fa-info-circle"></i> Status
+                            </label>
+                            {{ form.status }}
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="resetForm()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i> Create Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="success-modal" id="successModal">
+        <div class="modal-content">
+            <i class="fas fa-check-circle"></i>
+            <h2>Success!</h2>
+            <p>Your project has been created successfully.</p>
+            <button onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <script src="{% static 'scripts/create_project.js' %}"></script>
+</body>
+</html>

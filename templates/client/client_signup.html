@@ -3,35 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Business Account Signup</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/signup.css'%}"> <!-- Link to external CSS file -->
-    <script src="{% static 'scripts/script.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Footer.css' %}">
 </head>
 <body>
-    <div class="sign">
-         <h1>Business Account</h1>
-         <form action="">
-            <label for="name">Name : </label>
-            <input type="text" id="name" name = "name">
-            <label for="Company">Company Name : </label>
-            <input type="text" name="Company" id="Company" required>
-            <label for="address">Address : </label>
-            <textarea name="address" id="Address"></textarea>
-            <label for="State">State : </label>
-            <select name="state" id="State" required>
+    <div class="container">
+        <!-- Navbar -->
+       
 
-                <option value="">Select     </option>
-                <option value="" >
-                    Gujrat
-                </option>
-            </select>
-            <label for="email">Enter Business Email : </label>
-            <input type="email" id="email" name="email">
-            <label for="phone">Phone : </label>
-            <input type="tel" pattern="[789][0-9]{9}" id="phone">
-            <button>submit</button>
-         </form>  
-     </div>
+        <!-- Signup Form Section -->
+        <div class="signup-section">
+            <div class="sign">
+                <h1>Business Account</h1>
+                <form action="{% url 'client-signup-page' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}">Name</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">Username</label>
+                        {{ form.username }}
+                        {% if error.error_username %}
+                        <p class="error-message">{{ error.error_username }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.companyname.id_for_label }}">Company Name</label>
+                        {{ form.companyname }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.address.id_for_label }}">Address</label>
+                        {{ form.address }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.state.id_for_label }}">State</label>
+                        {{ form.state }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.businessEmail.id_for_label }}">Business Email</label>
+                        {{ form.businessEmail }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.phone.id_for_label }}">Phone</label>
+                        {{ form.phone }}
+                        {% if error.error_phone %}
+                        <p class="error-message">{{ error.error_phone }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        {{ form.password }}
+                        {% if error.error_password %}
+                        <p class="error-message">{{ error.error_password }}</p>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="submit-btn">Create Account</button>
+                    <hr>
+                    Already have an account? <a href="{% url 'client-login-page' %}">Login</a>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">Success Stories</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+        
+                    <div class="footer-col">
+                        <h4>For Clients</h4>
+                        <ul>
+                            <li><a href="#">Find Freelancers</a></li>
+                            <li><a href="#">Post a Project</a></li>
+                            <li><a href="#">Manage Projects</a></li>
+                            <li><a href="#">Payment & Security</a></li>
+                        </ul>
+                    </div>
+        
+                    <div class="footer-col">
+                        <h4>For Freelancers</h4>
+                        <ul>
+                            <li><a href="#">Browse Jobs</a></li>
+                            <li><a href="#">Freelancer Guide</a></li>
+                            <li><a href="#">Earn Money</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+        
+                    <div class="footer-col">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <span class="last">
+            Copyright © 2025 Freelancer. All rights reserved.
+        </span>
+    </div>
 </body>
-</html>'
+</html>

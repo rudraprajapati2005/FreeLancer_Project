@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Account Signup</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Footer.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+       
+
+        <!-- Signup Form Section -->
+        <div class="signup-section">
+            <div class="sign">
+                <h1>Business Account</h1>
+                <form action="{% url 'client-login-page' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">Username</label>
+                        <input type="text" name="username" id="username"  class="input-text" placeholder="Enter your username">
+                        {% if error.error_username %}
+                        <p class="error-message">{{ error.error_username }}</p>
+                        {% endif %}
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        <input type="text" name="password" id="password"  class="input-text" placeholder="Enter your password">
+                       
+                        {% if error.error_password %}
+                        <p class="error-message">{{ error.error_password }}</p>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="submit-btn">Login Account</button>
+                   
+            </div>
+        </div>
+
+
+        <span class="last">
+            Copyright © 2025 Freelancer. All rights reserved.
+        </span>
+    </div>
+</body>
+</html>

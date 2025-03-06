@@ -1,0 +1,42 @@
+.reach-information {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+    width: 100%; 
+}
+.reach-information .col {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 0px;
+}
+.reach-information .col .head {
+    display: flex;
+    gap:0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.reach-information .col .head h1{
+    width: max-content;
+    color: rgb(255, 0, 162);
+    font-weight: 500;
+    text-align: center;
+}
+.container {
+    padding-bottom: 100px;
+}
+#freelancer {
+    border-left: 1px solid rgba(0, 0, 0, 0.377);
+    border-right: 1px solid rgba(0, 0, 0, 0.348);
+}
+.reach-information .col img{
+    width:  5rem;
+}
+#freelancerimg{
+    width:5rem;
+}

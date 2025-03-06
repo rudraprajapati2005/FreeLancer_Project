@@ -1,0 +1,263 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  list-style: none;
+  text-decoration: none;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Aqua-White Background with Gradient */
+body {
+  background: linear-gradient(-45deg, #E0F7FA, #F0FFFF, #E0FFFF);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  color: #004d40;
+  min-height: 100vh;
+  /* // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center; */
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Light Grid Pattern Overlay */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(0, 77, 64, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+.navbar {
+  margin: 2% 0%;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding : 0 2%;
+  width: 100%;
+  /* height : 50%; */
+  align-items: center;
+}
+.navbar .navlinks {
+  display: flex;
+  justify-content: space-between;
+  width : 80%;
+  align-items: center;
+}
+.navbar .navlinks ul {
+  display: flex;
+  gap : 8%;
+  width : 70%;
+}
+.navbar .navlinks ul li{
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin : 14px 0;
+}
+.navbar .navlinks ul li a {
+  color:  black;
+}
+.navbar .navlinks .postproject a {
+  background-color: rgb(1, 87, 87);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+.navbar .navlinks ul li a {
+  position: relative;
+  color: #000;
+  text-decoration: none;
+  padding: 4px;
+}
+
+.navbar .navlinks ul li a:hover {
+  color: #000;
+}
+
+.navbar .navlinks ul li a::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  transform: scaleX(0);
+  transition: transform 0.24s ease;
+}
+
+.navbar .navlinks ul li a:hover::before {
+  transform: scaleX(1);
+}
+
+
+.postproject a {
+  text-align: center;
+  position: relative;
+  display: inline-block; /* Ensures it wraps around content properly */
+  padding: 10px 20px;
+  /* overflow: hidden;  */
+  color: black; /* Initial text color */
+  z-index: 1; /* Keep text above the background */
+  transition: color 0.35s ease;
+  font-weight: 500;
+}
+
+.postproject a:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #ff00cc;
+  border-radius: 6px;
+  transition: width 0.30s ease;
+  z-index: -1; /* Moves the background behind the text */
+  /* transform: scale(1.03); */
+}
+
+.postproject a:hover {
+  color: white; /* Change text color when hovering */
+}
+
+.postproject a:hover:after {
+  width: 100%;
+}
+
+.navbar .navlinks ul li a.active{
+   border-bottom: 3px solid black;
+}
+
+
+/* profile */
+
+/* Navbar Styling */ 
+
+/* Profile Icon (Round) */
+.profile-container{
+  width: 50px;
+  border-radius: 50%;
+}
+.profile-icon{
+  width: 45px; /* Adjust to fit navbar */
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ddd; /* Optional border */
+  background-color: #ccc;
+}
+ .profile-icon img{
+  max-width: 100px!important;
+ }
+ .signup-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.sign {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.sign h1 {
+  color: rgb(1, 87, 87);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgb(1, 87, 87);
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background-color: rgb(1, 87, 87);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: rgb(2, 107, 107);
+}
+
+/* Error states */
+.form-group input:invalid,
+.form-group select:invalid,
+.form-group textarea:invalid {
+  border-color: #ff4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sign {
+      padding: 1.5rem;
+      margin: 1rem;
+  }
+  
+  .form-group {
+      margin-bottom: 1rem;
+  }
+  
+  .submit-btn {
+      padding: 0.8rem 1.5rem;
+  }
+}
