@@ -35,7 +35,7 @@
                     <a href="" class="profile-icon">
                         <img src="{% static 'photos/assets/Freelancer-2.png' %}" alt="">
                     </a>
-                </div>
+                </div>  
                 {% endif %}
 
 
@@ -73,24 +73,21 @@
                 </div>
 
                 <!-- Freelancer List -->
+                
                 <div class="freelancer-list">
+                    {% for freelancer in freelancers %}
+                    <div class="profile-picture">
+                        {% if freelancer.profile_pic %}
+                           <img src="{{ freelancer.profile_pic }}" alt="Freelancer Image">
+                        {% endif %}
+                    </div>
                     <div class="freelancer-card">
-                        <h2>John Doe</h2>
-                        <p><strong>Expertise:</strong> HTML, CSS, JavaScript</p>
+                        <h2>{{freelancer.name}}</h2>
+                        <p><strong>Expertise:</strong>
+                         {{freelancer.skills}}</p>
                         <p class="hourly-rate"><strong>Hourly Rate:</strong> $30/hr</p>
                     </div>
-
-                    <div class="freelancer-card">
-                        <h2>Jane Smith</h2>
-                        <p><strong>Expertise:</strong> Python, AI/ML</p>
-                        <p class="hourly-rate"><strong>Hourly Rate:</strong> $50/hr</p>
-                    </div>
-
-                    <div class="freelancer-card">
-                        <h2>Michael Brown</h2>
-                        <p><strong>Expertise:</strong> JavaScript, React, Node.js</p>
-                        <p class="hourly-rate"><strong>Hourly Rate:</strong> $40/hr</p>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

@@ -130,7 +130,8 @@ def freelancer_signup(request):
             skills = request.POST.getlist('skills')
             freelancer.skills = ','.join(skills)
             freelancer.save()
-            return redirect('success')  # Redirect to a success page
+            user = model_to_dict(freelancer)
+            return render(request, 'user/Home.html', { 'freelancer' : freelancer }) # Redirect to a success page
     else:
         form = FreelancerForm()
     return render(request, 'freelancer/freelancer_signup.html', {'form': form})
@@ -226,7 +227,8 @@ def freelancer_login(request):
                     photo=Photo.objects.get(username=freelancer.username)
                     freelancer=model_to_dict(freelancer)
                     freelancer['profile_pic']=photo.image.url
-                return render(request,"freelancer/freelancer_homepage.html",{'freelancer':freelancer})
+                
+                return render(request,"user/Home.html", {'freelancer':freelancer})
             else:
                 error={'error_password':'Password is incorrect'}
                 return render(request,"freelancer/freelancer_login.html",error)
@@ -255,4 +257,12 @@ def browse_projects(request):
 
 
 def view_freelancers(request):
-    return render(request, 'user/Freelancers.html')
+    freelancers = Freelancer.objects.all()
+    
+    for fr in freelancers:
+        fr.skills = fr.skills.replace('_', ' ')
+        if Photo.objects.filter(username=fr.username):
+            user_freelancer=Photo.objects.get(username=fr.username)
+            fr.profile_pic=user_freelancer.image.url
+        
+    return render(request, 'user/Freelancers.html', {'freelancers': freelancers})

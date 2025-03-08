@@ -23,14 +23,13 @@
                 <ul id="navs">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-                    {% if user.is_authenticated %}
+                    {% if request.session %}
                     <li><a href="b">Manage Projects</a></li>
                     {% endif %}
                     <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
                     <li><a href="d">About</a></li>
                 </ul>
-                
-            {% if user.is_authenticated %}
+            {% if request.session %}
                 <!-- profile -->
                 <!-- need to add here photo of actual user -->
                 <div class="profile-container">
@@ -44,7 +43,7 @@
                 <div class="postproject">
                     <!-- {% if user.is_authenticated %} -->
                     <!-- {% endif %} -->
-                    <a href="{% url 'user_type' %}">Hire a Freelancer</a>
+                    <a href="{% url 'user_type' %}">Post Project</a>
                 </div>
             </div>
         </div>
