@@ -5,274 +5,356 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ freelancer.username }} - Professional Portfolio</title>
     {% load static %}
-    <!-- Enhanced CSS imports -->
+    {% load custom_filters %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles-profile-page.css' %}">
 </head>
 <body>
     {% if freelancer.username %}
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand font-weight-bold" href="#">
-                {{ freelancer.username }}
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div data-aos="fade-up">
-            {% if freelancer.profile_pic %}
-    <img src="{{ freelancer.profile_pic }}"  class="profile-image">
-    <div class="change-profile-photo mt-2">
-        <form id="updateProfileForm" action="{% url 'upload-profile-freelancer' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="custom-file-upload">
-                <input type="text" name="username" id="fileInput" hidden value="{{ freelancer.username }}">
-                          
-                <input type="file" name="image" id="updateFileInput" hidden onchange="submitFormOnFileSelect()">
-                <label for="updateFileInput" class="btn btn-custom">
-                    <i class="fas fa-camera mr-2"></i>Change Photo
-                </label>
-            </div>
-        </form>
-        <script>
-        
-        </script>
-    </div>
-{% else %}
-<form id="uploadForm" action="{% url 'upload-profile-freelancer' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="custom-file-upload">
-        <input type="text" name="username" id="fileInput" hidden value="{{ freelancer.username }}">
-        <input type="file" name="image" id="UploadfileInput" hidden>
-        <label for="UploadfileInput" class="btn btn-custom">
-            <i class="fas fa-cloud-upload-alt mr-2"></i>Upload Profile Photo
-        </label>
-    </div>
-</form>
-
-                {% endif %}
-                <h1 class="display-4 mb-3">{{ freelancer.username }}</h1>
-                <p class="lead mb-4">Professional Freelancer</p>
-                <a href="#contact" class="btn btn-custom">
-                    <i class="fas fa-paper-plane mr-2"></i>Get In Touch
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">
+                    <img src=" " alt="Logo">
                 </a>
             </div>
+            <div class="navlinks">
+                <ul id="navs">
+                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
+                    <li><a href="#">Manage Projects</a></li>
+                    <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <div class="postproject">
+                    <a href="{% url 'user_type' %}">Home Page</a>
+                </div>
+            </div>
         </div>
-    </section>
 
-    <!-- Rest of your sections with enhanced styling -->
-    <section id="about">
-        <h2>About Me</h2>
-        {% if freelancer.about_me %}
-            <p>{{ freelancer.about_me }}</p>
-        {% else %}
-            <p>[Brief description about yourself]</p>
-        {% endif %}
-       
-    </section>
+        <div class="profile-content">
+            <div class="profile-left">
+                <div class="profile-image-container">
+                    {% if freelancer.profile_pic %}
+                        <img src="{{ freelancer.profile_pic }}" class="profile-image" alt="Profile Picture">
+                        <div class="change-profile-AboutFreelancer">
+                            <form id="updateProfileForm" action="{% url 'upload-profile-freelancer' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="text" name="username" hidden value="{{ freelancer.username }}">
+                                <input type="file" name="image" id="updateFileInput" hidden onchange="submitFormOnFileSelect()">
+                                <label for="updateFileInput" class="upload-btn">
+                                    <i class="fas fa-camera"></i> Change Photo
+                                </label>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="profile-image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <form id="uploadForm" action="{% url 'upload-profile-freelancer' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text" name="username" hidden value="{{ freelancer.username }}">
+                            <input type="file" name="image" id="UploadfileInput" hidden>
+                            <label for="UploadfileInput" class="upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Profile Picture
+                            </label>
+                        </form>
+                    {% endif %}
+                </div>
 
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li><strong>Core Skills:</strong></li>
-            <li>[Skill 1]</li>
-            <li>[Skill 2]</li>
-            <li>[Skill 3]</li>
-            <li>[Skill 4]</li>
-            <li>[Skill 5]</li>
-        </ul>
-        <ul>
-            <li><strong>Tools & Technologies:</strong></li>
-            <li>[Tool/Technology 1]</li>
-            <li>[Tool/Technology 2]</li>
-            <li>[Tool/Technology 3]</li>
-        </ul>
-    </section>
+                <div class="profile-links-section">
+                    <div class="profile-section">
+                        <h2>Git Links</h2>
+                        <div class="git-content editable-section">
+                            {% if freelancer.gitLinks %}
+                                <div class="git-text">
+                                    <p>{{ freelancer.gitLinks }}</p>
+                                    <i class="fas fa-edit edit-icon" data-field="git" title="Edit Git links"></i>
+                                </div>
+                            {% else %}
+                                <p class="add-description" data-field="git">
+                                    Click to add your Git links
+                                </p>
+                            {% endif %}
+                            <div id="git-form" class="edit-form" style="display: none;">
+                                <form action="{% url 'save-description' %}" method="POST" onsubmit="return validateGitLinks(this);">
+                                    {% csrf_token %}
+                                    <input type="text" name="username" value="{{ freelancer.username }}" hidden>
+                                    <input type="text" name="field_type" value="git" hidden>
+                                    <textarea name="description" placeholder="Add your Git links (one per line)">{% if freelancer.gitLinks %}{{ freelancer.gitLinks }}{% endif %}</textarea>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="save-btn">Save</button>
+                                        <button type="button" class="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-    <section id="services">
-        <h2>Services Offered</h2>
-        <ul>
-            <li><strong>[Service 1]</strong>: [Brief description of the service] - Price: [Starting price or range]</li>
-            <li><strong>[Service 2]</strong>: [Brief description of the service] - Price: [Starting price or range]</li>
-            <li><strong>[Service 3]</strong>: [Brief description of the service] - Price: [Starting price or range]</li>
-        </ul>
-    </section>
+                    <div class="profile-section">
+                        <h2>Other Links</h2>
+                        <div class="links-content editable-section">
+                            {% if freelancer.links %}
+                                <div class="links-text">
+                                    <p>{{ freelancer.links }}</p>
+                                    <i class="fas fa-edit edit-icon" data-field="links" title="Edit links"></i>
+                                </div>
+                            {% else %}
+                                <p class="add-description" data-field="links">
+                                    Click to add your professional links
+                                </p>
+                            {% endif %}
+                            <div id="links-form" class="edit-form" style="display: none;">
+                                <form action="{% url 'save-description' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" name="username" value="{{ freelancer.username }}" hidden>
+                                    <input type="text" name="field_type" value="links" hidden>
+                                    <textarea name="description" placeholder="Add your professional links (one per line)">{% if freelancer.links %}{{ freelancer.links }}{% endif %}</textarea>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="save-btn">Save</button>
+                                        <button type="button" class="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <section id="portfolio">
-        <h2>Portfolio</h2>
-        <div class="portfolio-item">
-            <strong>[Project Title 1]</strong>: [Brief description of the project] - <a href="[URL or attachment]" target="_blank">View Project</a>
+            <div class="profile-right">
+                <div class="profile-header">
+                    <h1>{{ freelancer.username }}</h1>
+                    <p class="title">Professional Freelancer</p>
+                </div>
+
+                <div class="profile-section">
+                    <h2>About Me</h2>
+                    <div class="about-content editable-section">
+                        {% if freelancer.about_freelancer %}
+                            <div class="about-text">
+                                <p>{{ freelancer.about_freelancer }}</p>
+                                <i class="fas fa-edit edit-icon" data-field="about" title="Edit description"></i>
+                            </div>
+                        {% else %}
+                            <p class="add-description" data-field="about">
+                                Click to add your description
+                            </p>
+                        {% endif %}
+                        <div id="about-form" class="edit-form" style="display: none;">
+                            <form action="{% url 'save-description' %}" method="POST"> 
+                                {% csrf_token %}
+                                <input type="text" name="username" value="{{ freelancer.username }}" hidden>
+                                <input type="text" name="field_type" value="about" hidden>
+                                <textarea name="description" placeholder="Add your description">{% if freelancer.about_freelancer %}{{ freelancer.about_freelancer }}{% endif %}</textarea>
+                                <div class="form-buttons">
+                                    <button type="submit" class="save-btn">Save</button>
+                                    <button type="button" class="cancel-btn">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Skills</h2>
+                    <div class="skills-container">
+                        <h3>Core Skills</h3>
+                        <div class="skills-list">
+                            {% if freelancer.skills %}
+                                {% for skill in freelancer.skills|split:"," %}
+                                    <span class="skill-tag">{{ skill }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <p>No skills added yet</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Services Offered</h2>
+                    <div class="services-list">
+                        <div class="service-item">
+                            <h3>Web Development</h3>
+                            <p>Full-stack web development services</p>
+                            <span class="price">Starting at $50/hour</span>
+                        </div>
+                        <div class="service-item">
+                            <h3>Mobile App Development</h3>
+                            <p>Native and cross-platform mobile applications</p>
+                            <span class="price">Starting at $60/hour</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Contact Information</h2>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> {{ freelancer.email }}</p>
+                        <button class="contact-btn">Send Message</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="portfolio-item">
-            <strong>[Project Title 2]</strong>: [Brief description of the project] - <a href="[URL or attachment]" target="_blank">View Project</a>
-        </div>
-        <div class="portfolio-item">
-            <strong>[Project Title 3]</strong>: [Brief description of the project] - <a href="[URL or attachment]" target="_blank">View Project</a>
-        </div>
-    </section>
 
-    <section id="testimonials">
-        <h2>Testimonials</h2>
-        <div class="testimonial">
-            <strong>[Client Name]</strong>: "Testimonial text here."
-        </div>
-        <div class="testimonial">
-            <strong>[Client Name]</strong>: "Testimonial text here."
-        </div>
-        <div class="testimonial">
-            <strong>[Client Name]</strong>: "Testimonial text here."
-        </div>
-    </section>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-col">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">Success Stories</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
 
-    <section id="contact">
-        <h2>Contact Information</h2>
-        <p><strong>Email:</strong> <a href="mailto:[Your Email]">[Your Email]</a></p>
-        <p><strong>LinkedIn:</strong> <a href="[Your LinkedIn Profile]" target="_blank">[Your LinkedIn Profile]</a></p>
-        <p><strong>Website/Portfolio:</strong> <a href="[Your Website URL]" target="_blank">[Your Website URL]</a></p>
-        <button class="btn btn-contact" onclick="alert('Thank you for your interest! I will get back to you soon.');">Contact Me</button>
-    </section>
+                    <div class="footer-col">
+                        <h4>For Clients</h4>
+                        <ul>
+                            <li><a href="#">Find Freelancers</a></li>
+                            <li><a href="#">Post a Project</a></li>
+                            <li><a href="#">Manage Projects</a></li>
+                            <li><a href="#">Payment & Security</a></li>
+                        </ul>
+                    </div>
 
-    <footer>
-        <p>&copy; [Year] [Your Name]. All rights reserved.</p>
-        <p><em>[Optional: Include a personal motto or quote that reflects your work ethic]</em></p>
-    </footer>
+                    <div class="footer-col">
+                        <h4>For Freelancers</h4>
+                        <ul>
+                            <li><a href="#">Browse Jobs</a></li>
+                            <li><a href="#">Freelancer Guide</a></li>
+                            <li><a href="#">Earn Money</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
 
-    <!-- Enhanced Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+                    <div class="footer-col">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
+        document.addEventListener("DOMContentLoaded", function() {
+            function submitFormOnFileSelect() {
+                console.log('submitting form');
+                var form = document.getElementById('uploadForm');
+                if (form) {
+                    form.submit();
+                    console.log('Form submitted');
+                } else {
+                    console.error('Form not found!');
+                }
+            }
 
-        // Navbar scroll effect
-        $(window).scroll(function() {
-            if ($(window).scrollTop() > 50) {
-                $('.navbar').addClass('scrolled');
-            } else {
-                $('.navbar').removeClass('scrolled');
+            var fileInput = document.getElementById('UploadfileInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', submitFormOnFileSelect);
+                console.log('Event listener added to file input');
+            }
+
+            // For update form
+            function submitUpdateFormOnFileSelect() {
+                console.log('submitting update form');
+                var form = document.getElementById('updateProfileForm');
+                if (form) {
+                    form.submit();
+                    console.log('Update form submitted');
+                } else {
+                    console.error('Update form not found!');
+                }
+            }
+
+            var updateFileInput = document.getElementById('updateFileInput');
+            if (updateFileInput) {
+                updateFileInput.addEventListener('change', submitUpdateFormOnFileSelect);
+                console.log('Event listener added to update file input');
             }
         });
+        // description form
+        document.addEventListener('DOMContentLoaded', function() {
+            const editableSections = document.querySelectorAll('.editable-section');
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                const navHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+            editableSections.forEach(section => {
+                const addDescription = section.querySelector('.add-description');
+                const editIcon = section.querySelector('.edit-icon');
+                const editForm = section.querySelector('.edit-form');
+                const textDisplay = section.querySelector('div[class$="-text"]');
+                const cancelBtn = section.querySelector('.cancel-btn');
 
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            });
-        });
+                function showForm() {
+                    if (editForm) {
+                        editForm.style.display = 'block';
+                        if (textDisplay) {
+                            textDisplay.style.display = 'none';
+                        }
+                        if (addDescription) {
+                            addDescription.style.display = 'none';
+                        }
+                    }
+                }
 
-        // File upload handling
-        const fileInput = document.getElementById('fileInput');
-        if (fileInput) {
-            fileInput.addEventListener('change', function() {
-                document.getElementById('uploadForm').submit();
-            });
-        }
+                function hideForm() {
+                    if (editForm) {
+                        editForm.style.display = 'none';
+                        if (textDisplay) {
+                            textDisplay.style.display = 'block';
+                        }
+                        if (addDescription) {
+                            addDescription.style.display = 'block';
+                        }
+                    }
+                }
 
-        // Add loading state to buttons
-        document.querySelectorAll('.btn-custom').forEach(button => {
-            button.addEventListener('click', function() {
-                this.classList.add('loading');
-                // Add your loading logic here
-            });
-        });
+                if (addDescription) {
+                    addDescription.addEventListener('click', showForm);
+                }
 
-        // Intersection Observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
+                if (editIcon) {
+                    editIcon.addEventListener('click', showForm);
+                }
+
+                if (cancelBtn) {
+                    cancelBtn.addEventListener('click', hideForm);
                 }
             });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section').forEach((section) => {
-            observer.observe(section);
         });
-       
-        
-    //submit form on file select
-    document.addEventListener("DOMContentLoaded", function() {
-        function submitFormOnFileSelect() {
-            console.log('submitting form');
-            var form = document.getElementById('uploadForm');
-            if (form) {
-                form.submit();
-                console.log('Form submitted');
-            } else {
-                console.error('Form not found!');
-            }
-        }
 
-        var fileInput = document.getElementById('UploadfileInput');
-        if (fileInput) {
-            fileInput.addEventListener('change', submitFormOnFileSelect);
-            console.log('Event listener added to file input');
-        } else {
-            console.error('File input not found!');
-        }
-    });
-    document.addEventListener("DOMContentLoaded", function() {
-        function submitFormOnFileSelect() {
-            console.log('submitting form');
-            var form = document.getElementById('updateProfileForm');
-            if (form) {
-                form.submit();
-                console.log('Form submitted');
-            } else {
-                console.error('Form not found!');
-            }
-        }
+        // GitHub link validation
+        function validateGitLinks(form) {
+            const textarea = form.querySelector('textarea[name="description"]');
+            const links = textarea.value.split('\n').filter(link => link.trim() !== '');
+            
+            const githubRegex = /^https:\/\/github\.com\/[\w-]+(?:\/[\w.-]+)*\/?$/;
+            let isValid = true;
+            let errorMessage = '';
 
-        var fileInput = document.getElementById('updateFileInput');
-        if (fileInput) {
-            fileInput.addEventListener('change', submitFormOnFileSelect);
-            console.log('Event listener added to file input');
-        } else {
-            console.error('File input not found!');
+            for (const link of links) {
+                if (link.trim() && !githubRegex.test(link.trim())) {
+                    isValid = false;
+                    errorMessage = 'Please enter valid GitHub links (e.g., https://github.com/username/repository)';
+                    break;
+                }
+            }
+
+            if (!isValid) {
+                alert(errorMessage);
+                return false;
+            }
+
+            return true;
         }
-    });
     </script>
     {% endif %}
 </body>

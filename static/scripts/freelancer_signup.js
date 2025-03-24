@@ -10,7 +10,7 @@ const allSkills = [
     { value: "copywriting", text: "Copywriting" },
     { value: "translation", text: "Translation" },
     { value: "social_media_management", text: "Social Media Management" },
-    { value: "photography", text: "Photography" },
+    { value: "AboutFreelancergraphy", text: "AboutFreelancergraphy" },
     { value: "virtual_assistance", text: "Virtual Assistance" },
     { value: "software_development", text: "Software Development" },
     { value: "ui_ux_design", text: "UI/UX Design" },

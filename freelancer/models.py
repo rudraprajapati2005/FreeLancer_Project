@@ -7,9 +7,13 @@ class Freelancer(models.Model):
     password = models.CharField(max_length=255)
     skills = models.TextField()  # Store the skills as a comma-separated string
 
-class   Photo(models.Model):
+class   AboutFreelancer(models.Model):
     username=models.CharField(max_length=255,unique=True)
-    image = models.ImageField(upload_to='photos/profile_pic')
+    image = models.ImageField(upload_to='AboutFreelancers/profile_pic')
+    about_freelancer=models.TextField(null=True )
+    gitLinks=models.TextField(null=True)
+    links=models.TextField(null=True)
+    freelancer = models.ForeignKey(Freelancer, to_field='username', on_delete=models.CASCADE, related_name='about_freelancer',null=True,blank=True)
 
        
 INDIAN_STATES = [

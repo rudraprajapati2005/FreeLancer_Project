@@ -1,14 +1,14 @@
 from django import forms
-from .models import Freelancer, Photo, Client,Project,Users
+from .models import Freelancer, AboutFreelancer, Client,Project,Users
 
 class FreelancerForm(forms.ModelForm):
     class Meta:
         model = Freelancer
         fields = ['name', 'email', 'username', 'password', 'skills']
 
-class PhotoForm(forms.ModelForm):
+class AboutFreelancerForm(forms.ModelForm):
     class Meta:
-        model = Photo
+        model = AboutFreelancer
         fields = ['username', 'image']
 
  

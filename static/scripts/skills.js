@@ -4,7 +4,7 @@ export const allSkills = [
     "Python", "Java", "C#", "C++", "Go", "Rust", "Spring Boot", "ASP.NET", "MySQL",
     "PostgreSQL", "MongoDB", "Firebase", "GraphQL", "REST API", "SQL", "NoSQL",
     "Android", "iOS", "Flutter", "React Native", "Swift", "Kotlin", "Dart", "Objective-C",
-    "Figma", "Adobe XD", "Sketch", "Photoshop", "Illustrator", "Canva", "Wireframing",
+    "Figma", "Adobe XD", "Sketch", "AboutFreelancershop", "Illustrator", "Canva", "Wireframing",
     "Prototyping", "Graphic Design", "Motion Graphics",
     "Machine Learning", "Deep Learning", "NLP", "Computer Vision", "TensorFlow", "PyTorch",
     "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Data Visualization", "Big Data",

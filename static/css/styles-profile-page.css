@@ -111,13 +111,198 @@ section {
     transform: translateY(-5px);
 }
 
-/* Profile Image */
+/* Profile Content Layout */
+.profile-content {
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    margin-top: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 2rem;
+}
+
+.profile-left {
+    flex: 0 0 300px;
+}
+
+.profile-right {
+    flex: 1;
+}
+
+/* Profile Image Styles */
+.profile-image-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
 .profile-image {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    border: 5px solid white;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    object-fit: cover;
+    border: 4px solid rgb(1, 87, 87);
+    transition: transform 0.3s ease-in-out;
+}
+.profile-image:hover {
+transform: scale(1.05);
+transition: transform 0.3s ease-in-out;
+}
+
+.profile-image-placeholder {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgb(1, 87, 87);
+}
+
+.profile-image-placeholder i {
+    font-size: 5rem;
+    color: #999;
+}
+
+/* Upload Button Styles */
+.upload-btn {
+    background-color: rgb(1, 87, 87);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: rgb(2, 107, 107);
+}
+
+.upload-btn i {
+    font-size: 1.2rem;
+}
+
+/* Profile Header */
+.profile-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+}
+
+.profile-header h1 {
+    color: rgb(1, 87, 87);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-header .title {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+/* Profile Sections */
+.profile-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.profile-section h2 {
+    color: rgb(1, 87, 87);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.profile-section h3 {
+    color: #444;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+/* Skills Section */
+.skills-container {
+    margin-top: 1rem;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.skill-tag {
+    background-color: rgb(1, 87, 87);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Services Section */
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.service-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service-item h3 {
+    color: rgb(1, 87, 87);
+    margin-bottom: 0.5rem;
+}
+
+.service-item p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.service-item .price {
+    color: rgb(1, 87, 87);
+    font-weight: bold;
+}
+
+/* Contact Section */
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.contact-info p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #444;
+}
+
+.contact-btn {
+    background-color: rgb(1, 87, 87);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-btn:hover {
+    background-color: rgb(2, 107, 107);
 }
 
 /* Animations */
@@ -149,28 +334,28 @@ section {
     padding: 0.5rem 1rem;
     margin: 0.25rem;
     border-radius: 20px;
-    background: var(--light-bg);
+    background: rgb(28, 76, 187)
     transition: all 0.3s ease;
 }
 
 .skill-tag:hover {
-    background: var(--secondary-color);
+    background: rgb(6, 112, 112);
     color: white;
 }
  
-.change-profile-photo {
+.change-profile-AboutFreelancer {
 position: relative;
 z-index: 2;
 }
 
-.change-profile-photo .btn-custom {
+.change-profile-AboutFreelancer .btn-custom {
 font-size: 0.9rem;
 padding: 0.5rem 1rem;
 background: rgba(255, 255, 255, 0.9);
 color: var(--secondary-color);
 }
 
-.change-profile-photo .btn-custom:hover {
+.change-profile-AboutFreelancer .btn-custom:hover {
 background: white;
 color: var(--accent-color);
 }
@@ -178,4 +363,512 @@ color: var(--accent-color);
     height: 30vh;
     width: 30vh;
     border: 3px solid #ffffff;
+}
+.navbar {
+    margin: 2% 0%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2%;
+    width: 100%;
+    /* height: 50%; */
+    align-items: center;
+}
+.navbar .navlinks {
+    display: flex
+;
+    justify-content: space-between;
+    width: 80%;
+    align-items: center;
+}
+.navbar .navlinks ul {
+    display: flex;
+    gap: 8%;
+    width: 70%;
+}
+ul {
+    list-style: none;
+}
+.navbar .navlinks .postproject a {
+    background-color: rgb(1, 87, 87);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+.postproject a {
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: black;
+    z-index: 1;
+    transition: color 0.35s ease;
+}
+.navbar .navlinks ul li a {
+    position: relative;
+    color: #000;
+    text-decoration: none;
+    padding: 4px;
+}
+.navbar .navlinks ul li {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 14px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .profile-left {
+        flex: none;
+        width: 100%;
+    }
+
+    .profile-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .profile-image-placeholder {
+        width: 200px;
+        height: 200px;
+    }
+
+    .services-list {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+.container{
+    width: 90%;
+}
+
+/*----------- FOOTER (Freelancer HomePage) ----------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.row{
+	display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+ul{
+	list-style: none;
+}
+.footer {
+    background: linear-gradient(-45deg, #E0F7FA, #F0FFFF, #E0FFFF);
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Ensures spacing */
+    flex-wrap: wrap; /* Allows wrapping if needed */
+    padding: 20px 0; /* Adds some padding for better spacing */
+}
+footer{
+    margin-top : 100px;
+    margin-right: 0;
+    padding: 0; 
+}
+
+.footer-col {
+    flex: 1;  /* Allows equal distribution */
+    min-width: 200px; /* Prevents columns from getting too small */ 
+    display: flex;
+    flex-direction: column;
+}
+footer .container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-col h4{
+	font-size: 18px;
+	color: #585656;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+}
+.footer-col h4::before{
+	content: '';
+	position: absolute;
+	left:0;
+	bottom: -10px;
+	background-color: #e91e63;
+	height: 2px;
+	box-sizing: border-box;
+	width: 50px;
+}
+.footer-col ul li:not(:last-child){
+	margin-bottom: 10px;
+}
+.footer-col ul li a{
+	font-size: 16px;
+	text-transform: capitalize;
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: 400;
+	color: #404040;
+	display: block;
+	transition: all 0.3s ease;
+}
+.footer-col ul li a:hover{
+	color: #535151;
+	padding-left: 8px;
+}
+.footer-col .social-links a {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	background-color: rgba(92, 89, 89, 0.2);
+	margin:0 10px 10px 0;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 50%;
+	color: #ffffff;
+	transition: all 0.5s ease;
+}
+.footer-col .social-links a:hover{
+	color: #24262b;
+	background-color: #ffffff;
+}
+
+/*responsive*/
+@media(max-width: 767px){
+  .footer-col{
+    width: 50%;
+    margin-bottom: 30px;
+}
+}
+@media(max-width: 574px){
+  .footer-col{
+    width: 100%;
+}
+}
+
+
+
+@media (max-width: 767px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-col {
+        width: 80%;  /* Keeps it aligned */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+.last{
+    position: relative;
+    top : 4%;
+    font-weight: 500;
+    padding-bottom: 14px;
+}
+.container{
+    padding-bottom: 0!important;
+}
+.profile-info a{
+    background-color: aqua !important;
+}
+
+
+
+/*--------------About Freelancer---------------- */
+.add-discription{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2% 0%;
+    width: 100%;
+    border-color: #00cec9;
+    border-radius: 1rem;
+    border-style: dashed;
+    padding: 1%;
+    background-color: white;
+    justify-content: center;
+    height: 15vh;
+    cursor: pointer;
+}
+
+#description-form {
+    margin-top: 10px;
+}
+
+#description-form textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#description-form button {
+    padding: 10px 20px;
+    background-color: #2d3436;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#description-form button:hover {
+    background-color: #3b7764;
+}
+
+/* About Section Styles */
+.about-content {
+    position: relative;
+}
+
+.about-text {
+    position: relative;
+    padding-right: 30px;
+}
+
+.edit-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: rgb(1, 87, 87);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: rgb(2, 107, 107);
+}
+
+.add-description {
+    color: #666;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.add-description:hover {
+    border-color: rgb(1, 87, 87);
+    color: rgb(1, 87, 87);
+}
+
+#description-form {
+    margin-top: 1rem;
+}
+
+#description-form textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+#description-form textarea:focus {
+    border-color: rgb(1, 87, 87);
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.save-btn, .cancel-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn {
+    background-color: rgb(1, 87, 87);
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: rgb(2, 107, 107);
+}
+
+.cancel-btn {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* Editable Sections */
+.editable-section {
+    position: relative;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.git-text, .links-text, .about-text {
+    position: relative;
+    padding-right: 30px;
+}
+
+.edit-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: rgb(1, 87, 87);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: rgb(2, 107, 107);
+}
+
+.add-description {
+    color: #666;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.add-description:hover {
+    border-color: rgb(1, 87, 87);
+    color: rgb(1, 87, 87);
+}
+
+.edit-form {
+    margin-top: 1rem;
+}
+
+.edit-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.edit-form textarea:focus {
+    border-color: rgb(1, 87, 87);
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.save-btn, .cancel-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn {
+    background-color: rgb(1, 87, 87);
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: rgb(2, 107, 107);
+}
+
+.cancel-btn {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+/* Link Formatting */
+.git-text a, .links-text a {
+    color: rgb(1, 87, 87);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.git-text a:hover, .links-text a:hover {
+    color: rgb(2, 107, 107);
+    text-decoration: underline;
+}
+
+.profile-links-section {
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.profile-links-section .profile-section {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.profile-links-section .profile-section h2 {
+    color: rgb(1, 87, 87);
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.profile-links-section .git-text p,
+.profile-links-section .links-text p {
+    word-break: break-all;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.profile-links-section .edit-form textarea {
+    min-height: 100px;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .profile-links-section {
+        margin-top: 1rem;
+    }
+    
+    .profile-links-section .profile-section {
+        padding: 0.8rem;
+    }
 }
