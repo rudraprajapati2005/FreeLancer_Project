@@ -137,16 +137,18 @@ def client_login(request):
     username = request.session.get('username')
     password = request.session.get('password')
 
-    # Change 'is' to '==' for string comparison
-    if user_type == 'client' and username and password:  # Also change 'Client' to 'client' to match the user_type we set
+    if user_type == 'client' and username and password:
         try:
             hashed_password = hash_password(password)
             user = Users.objects.get(username=username, password=hashed_password, user_type='client')
             client = Client.objects.get(user=user)
             client_dict = model_to_dict(client)
             client_dict.update(model_to_dict(user))
-            if client.image:
+            # Check if image exists before accessing url
+            if client.image and hasattr(client.image, 'url'):
                 client_dict['profile_pic'] = client.image.url
+            else:
+                client_dict['profile_pic'] = None
             return render(request, 'client/client_homepage.html', {'client': client_dict})
         except (Users.DoesNotExist, Client.DoesNotExist):
             pass
@@ -164,10 +166,14 @@ def client_login(request):
                     request.session['username'] = user.username
                     request.session['name'] = user.name
                     request.session['email'] = user.email
-                    request.session['password']=password
+                    request.session['password'] = password
                     client_dict = model_to_dict(client)
                     client_dict.update(model_to_dict(user))
-                    client_dict['profile_pic'] = client.image.url
+                    # Check if image exists before accessing url
+                    if client.image and hasattr(client.image, 'url'):
+                        client_dict['profile_pic'] = client.image.url
+                    else:
+                        client_dict['profile_pic'] = None
                     return render(request, 'client/client_homepage.html', {'client': client_dict})
                 else:
                     error = {'error_password': 'Password is incorrect'}
@@ -180,7 +186,6 @@ def client_login(request):
                 return render(request, 'client/client_login.html', {'error': error})
                 
     return render(request, 'client/client_login.html')
-
 
 def client_home_page(request):
     return redirect('client-login-page')
