@@ -49,7 +49,7 @@
                 <!-- Project List -->
                 <div class="project-list">
                     {% for project in projects %}
-                    <a href="#" class="project-card" data-status="{{ project.status }}">
+                    <a href="{% url 'project_card' project.id %}" class="project-card" data-status="{{ project.status }}">
                         <h2>{{ project.title }}</h2>
                         <div class="skills-tags">
                             {% for skill in project.skills_required|split:"," %}

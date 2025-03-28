@@ -22,4 +22,5 @@ urlpatterns = [
     path("upload-profile-client", views.upload_profile_client, name='upload-profile-client'),
     path("client-save-details", views.save_client_details, name="save-client-details"),
     path("client/my-projects/", views.client_my_projects, name="client-my-projects"),
+    path('project/<int:project_id>/', views.project_card, name='project_card')
 ]

@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404
+
 import hashlib
 # Create your views here.
 def home(request):
@@ -869,3 +871,17 @@ def client_my_projects(request):
         return render(request, 'client/client_myprojects.html', context)
     except (Users.DoesNotExist, Client.DoesNotExist):
         return redirect('client-login-page')
+
+def project_card(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    project_dict=model_to_dict(project)
+    skill = [s.replace('_', ' ') for s in project.skills_required.split(",")]
+    project_dict['skills']=skill
+    client_info_model=project.posted_by
+    client_info_dict=model_to_dict(client_info_model)
+    client_user_info=model_to_dict(client_info_model.user)
+    project_dict.update(client_user_info)
+    project_dict.update(client_info_dict)
+    print(project_dict)
+    return render(request,"user/Project_information.html",
+                   {'project' : project_dict})

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% load static %}
+    {% load custom_filters%}
     <link rel="stylesheet" href="{% static 'css/Project_information.css' %}">
     <link rel="stylesheet" href="{% static 'css/Home.css' %}">
 </head>
@@ -40,31 +41,19 @@
                 
                 <div class="project-details">
                     <div class="details">
-                        <!-- {{project.title}} -->
-                        <h2 class="project-heading"> 
-                                This is project title 
+                        <h2 class="project-heading">
+                                {{project.title}}
                         </h2>
                         <span class="project-description">
-                            <!-- {{project.description}} -->
-                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi distinctio delectus magnam in. Officiis, rem magnam? Dolorum doloribus eum, placeat corporis ducimus reiciendis!
-                             <br>
-                             <br>
-                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam eaque incidunt inventore cupiditate dolores soluta earum quibusdam quisquam, repudiandae ipsam odio laborum, harum nisi.
-                             <br>
-                             <br>
-                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae impedit debitis quia omnis accusantium sit minus nostrum ad officiis. Est corrupti debitis reiciendis a ullam nobis voluptatibus, labore maiores voluptate sunt fuga at suscipit vitae alias ratione? Expedita magnam error minus inventore culpa.
+                            {{project.description}}
                         </span>
 
                         <div class="skills">
                             <h2>Skills Required</h2>
                             <div class="tags-container">
-                                <!-- {%  skills = ['c programming'] %} -->
-                                 <!-- {%   for skill in skills %} -->
-                                    <!-- <span class="tag">{{ skill }}</span> -->
-                                    <span class="tag">C programming</span>
-                                    <span class="tag">Spring boot</span>
-                                    <span class="tag">Blockchain</span>
-                                <!-- {% endfor %} -->
+                                {% for skill in project.skills   %}
+                                    <span class="tag">{{skill}}</span>
+                                    {%endfor%}
                             </div>
                         </div>
 
@@ -77,7 +66,7 @@
                             <div class="box">
                                 <h4>Avarage Bid</h4>
                                 <!-- <span>{{Project.AvarageBid}}</span> -->
-                                 <span>$1500 USD.</span>
+                                 <span> $ {{project.budget}}</span>
                             </div>
                         </div>
                     </div>
@@ -85,7 +74,7 @@
                         <h2>Client Information</h2>
                         <div class="client-card">
                             <div class="client-details">
-                                <h3 class="client-name">John Doe</h3>  <!-- Replace with {{project.client.name}} -->
+                                <h3 class="client-name">{{project.username}}</h3>  <!-- Replace with {{project.client.name}} -->
                                 <p class="client-location">📍 New York, USA</p> <!-- Replace with {{project.client.location}} -->
                                 <p class="client-rating">⭐ 4.8 (25 Reviews)</p>  <!-- Replace with {{project.client.rating}} -->
                             </div>
@@ -114,8 +103,8 @@
                 </div>
                 <!-- {% endfor %} -->
             </div>
-         </div>d:\Freelancer-frontend\Browse_Projects.html
+         </div> 
     </div>
-    <script src="Project_information.js"></script>
+    <script src="{% static 'scripts/Project_information.js' %}"></script>
 </body>
 </html>
