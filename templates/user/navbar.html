@@ -29,12 +29,11 @@
         <!-- profile -->
         <!-- need to add here AboutFreelancer of actual user -->
         <div class="profile-container">
-          <a href="{% url 'profile' %}" class="profile-icon">
-            <img
-              src="{{ request.session.image }}"
-              alt=""
-            />
-          </a>
+          <div class="profile-icon">
+            {% if client.profile_pic %}
+            <img src="{{ client.profile_pic }}"  alt=""/>
+            {% endif %}
+        </div>
         </div>
         {% endif %}
 
