@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
-
+from django.conf import settings
 import hashlib
 # Create your views here.
 def home(request):
@@ -151,6 +151,7 @@ def client_login(request):
                 client_dict['profile_pic'] = client.image.url
             else:
                 client_dict['profile_pic'] = None
+            settings.USER = client_dict
             return render(request, 'client/client_homepage.html', {'client': client_dict})
         except (Users.DoesNotExist, Client.DoesNotExist):
             pass
@@ -885,3 +886,7 @@ def project_card(request, project_id):
     print(project_dict)
     return render(request,"user/Project_information.html",
                    {'project' : project_dict})
+
+
+def profile(request):
+    return render(request, "client/client_homepage.html", { 'client' : request.session  })

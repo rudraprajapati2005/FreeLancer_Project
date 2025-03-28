@@ -13,40 +13,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <div class="logo">
-                <a href="#">
-                    <img src=" " alt="Logo">
-                </a>
-            </div>
-            <div class="navlinks">
-                <ul id="navs">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-                    {% if request.session %}
-                    <li><a href="b">Manage Projects</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
-                    <li><a href="d">About</a></li>
-                </ul>
-            {% if request.session %}
-                <!-- profile -->
-                <!-- need to add here AboutFreelancer of actual user -->
-                <div class="profile-container">
-                    <a href="" class="profile-icon">
-                        <img src="{% static 'AboutFreelancers/assets/Freelancer-2.png' %}" alt="">
-                    </a>
-                </div>
-                {% endif %}
-
-
-                <div class="postproject">
-                    <!-- {% if user.is_authenticated %} -->
-                    <!-- {% endif %} -->
-                    <a href="{% url 'user_type' %}">Post Project</a>
-                </div>
-            </div>
-        </div>
+        {% include 'user/navbar.html' %}
         <div class="Herosection">
             <div class="left">
                 <div class="text-container">
