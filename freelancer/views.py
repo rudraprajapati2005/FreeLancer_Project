@@ -693,8 +693,8 @@ def user_type(request):
     return render(request, 'user/user_type.html')
 
 def browse_projects(request):
-    return render(request, 'user/Browse_projects.html')
-
+    projects = Project.objects.all().order_by('-created_at')
+    return render(request, 'user/Browse_projects.html', {'projects': projects})
 
 def view_freelancers(request):
     freelancers = Freelancer.objects.all()

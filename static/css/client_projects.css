@@ -190,6 +190,31 @@
     gap: 0.5rem;
 }
 
+.project-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.project-deadline, .project-uploader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-deadline i {
+    color: #f57c00;
+}
+
+.project-uploader i {
+    color: rgb(1, 87, 87);
+}
+
 .no-projects {
     grid-column: 1 / -1;
     text-align: center;

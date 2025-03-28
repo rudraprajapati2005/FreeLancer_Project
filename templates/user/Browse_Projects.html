@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Projects</title>
     {% load static %}
+    {% load custom_filters %}
     <link rel="stylesheet" href="{% static 'css/Browse_Projects.css' %}">
     <link rel="stylesheet" href="{% static 'css/Home.css' %}">
     <link rel="stylesheet" href="{% static 'css/Project_information.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/client_projects.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head><body>
     <div class="container">
         <div class="navbar">
             <div class="logo">
@@ -19,87 +21,151 @@
             </div>
             <div class="navlinks">
                 <ul id="navs">
-                    <li><a href="Home.html">Home</a></li>
-                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="b">Manage Projects</a></li>
-                    {% endif %}
-                    <li><a href="c">Freelancers</a></li>
-                    <li><a href="d">About</a></li>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'client-my-projects' %}" class="active">Browse Projects</a></li>
+                    <li><a href="{% url 'client-create-project' %}">Post Project</a></li>
+                    <li><a href="{% url 'view_freelancers' %}">Find Freelancers</a></li>
+                    <li><a href="#">About</a></li>
                 </ul>
-                
-            {% if user.is_authenticated %}
-                <!-- profile -->
-                <!-- need to add here AboutFreelancer of actual user -->
-                <div class="profile-container">
-                    <a href="" class="profile-icon">
-                        <img src="{% static 'AboutFreelancers/assets/Freelancer-2.png' %}" alt="">
-                    </a>
-                </div>
-                {% endif %}
-
-
                 <div class="postproject">
-                    <!-- {% if user.is_authenticated %} -->
-                    <!-- {% endif %} -->
-                    <a href="{% url 'user_type' %}">Hire a Freelancer</a>
+                    <a href="{% url 'client-create-project' %}">Post New Project</a>
+                </div>
+                <div class="logout">
+                    <a href="{% url 'client-logout' %}">Logout</a>
                 </div>
             </div>
         </div>
         
         <div class="project-container">
-        
-            <!-- Filtering Section -->
-            <div class="project-filter">
-                <h2>Filters</h2>
-    
-                <!-- Searchable Skill Filter -->
-                <div class="filter-section">
-                    <h3>Filter by Skills</h3>
-                    <input type="text" id="skill-search" placeholder="Search skills...">
-                    <ul id="skill-list"></ul>
-                    <div id="selected-skills"></div>
-                </div>
-    
-                <!-- Apply Filter Button -->
-                <button id="apply-filters">Apply Filters</button>
-                <p>you can remove skill by clicking on that.</p>
-            </div>
-    
             <!-- Project Section -->
             <div class="project-content">
+                <h1> Projects</h1>
                 
                 <!-- Search Bar -->
                 <div class="search-bar">
-                    <input type="text" id="project-search" placeholder="Search for projects...">
-                    <!-- <button>Search</button>     -->
+                    <input type="text" id="project-search" placeholder="Search my projects...">
                 </div>
     
                 <!-- Project List -->
                 <div class="project-list">
-                    <a href="#" class="project-card">
-                        <h2>Website Development</h2>
-                        <p><strong>Budget:</strong> $1000 - $1500</p>
-                        <p class="skills"><strong>Skills:</strong> HTML, CSS, JavaScript</p>
+                    {% for project in projects %}
+                    <a href="#" class="project-card" data-status="{{ project.status }}">
+                        <h2>{{ project.title }}</h2>
+                        <div class="skills-tags">
+                            {% for skill in project.skills_required|split:"," %}
+                                <span class="skill-tag">{{ skill|trim }}</span>
+                            {% endfor %}
+                        </div>
+                        <p><i class="fas fa-check-circle"></i> <span class="status status-{{ project.status }}">{{ project.status|title }}</span></p>
+                        <div class="project-meta">
+                            <span class="project-budget">
+                                <i class="fas fa-dollar-sign"></i> {{ project.budget }}
+                            </span>
+                            <span class="project-date">
+                                <i class="far fa-calendar-alt"></i> {{ project.created_at|date:"M d, Y" }}
+                            </span>
+                        </div>
+                        <div class="project-details">
+                            <span class="project-deadline">
+                                <i class="fas fa-hourglass-end"></i> Deadline: {{ project.deadline|date:"M d, Y" }}
+                            </span>
+                            <span class="project-uploader">
+                                <i class="fas fa-user"></i> Posted by: {{ project.posted_by.user.username }}
+                            </span>
+                        </div>
                     </a>
-    
-                    <a href="#" class="project-card">
-                        <h2>AI Chatbot with Python</h2>
-                        <p><strong>Budget:</strong> $800 - $1200</p>
-                        <p class="skills"><strong>Skills:</strong> Python, AI/ML</p>
-                    </a>
-    
-                    <a href="#" class="project-card">
-                        <h2>E-commerce Website</h2>
-                        <p><strong>Budget:</strong> $2000 - $3000</p>
-                        <p class="skills"><strong>Skills:</strong> JavaScript, React, Node.js</p>
-                    </a>
-             
+                    {% empty %}
+                    <div class="no-projects">
+                        <i class="fas fa-clipboard fa-3x" style="color: #ff0081; margin-bottom: 1rem;"></i>
+                        <p>You haven't posted any projects yet.</p>
+                        <a href="{% url 'client-create-project' %}" class="btn-primary">
+                            <i class="fas fa-plus-circle"></i> Create Your First Project
+                        </a>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-
     </div>
-    <script type="module" src="{% static 'scripts/Browse_projects.js' %}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const projectSearchInput = document.getElementById("project-search");
+            const projectCards = document.querySelectorAll(".project-card");
+
+            projectSearchInput.addEventListener("input", function () {
+                const query = this.value.toLowerCase();
+                let hasResults = false;
+
+                projectCards.forEach(card => {
+                    const title = card.querySelector("h2").textContent.toLowerCase();
+                    const skillTags = Array.from(card.querySelectorAll(".skill-tag"))
+                        .map(tag => tag.textContent.toLowerCase());
+                    const status = card.querySelector(".status").textContent.toLowerCase();
+                    
+                    const matches = title.includes(query) || 
+                                  skillTags.some(skill => skill.includes(query)) ||
+                                  status.includes(query);
+                    
+                    if (matches) {
+                        card.style.display = "flex";
+                        hasResults = true;
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+
+                updateSearchResults(hasResults, query);
+            });
+
+            // Function to update search results UI
+            function updateSearchResults(hasResults, query) {
+                let noResultsMsg = document.querySelector(".no-results");
+                const projectList = document.querySelector(".project-list");
+
+                if (!hasResults && query) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement("div");
+                        noResultsMsg.className = "no-results";
+                        noResultsMsg.innerHTML = `
+                            <i class="fas fa-search"></i>
+                            <p>No projects found matching "${query}"</p>
+                            <p>Try searching with different keywords</p>
+                        `;
+                        projectList.appendChild(noResultsMsg);
+                    }
+                } else if (noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            }
+        });
+
+        // Modify animation styles to prevent interference
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            .no-results {
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 2rem;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                margin: 2rem auto;
+            }
+
+            .no-results i {
+                font-size: 2.5rem;
+                color: rgb(1, 87, 87);
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+            .no-results p {
+                color: #666;
+                margin: 0.5rem 0;
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
 </body>
 </html>
