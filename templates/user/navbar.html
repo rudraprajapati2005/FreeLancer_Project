@@ -30,8 +30,12 @@
         <!-- need to add here AboutFreelancer of actual user -->
         <div class="profile-container">
           <div class="profile-icon">
+           
             {% if client.profile_pic %}
+            <a href="{% url 'profile' %}">
+              <i class="fas fa-user"></i>
             <img src="{{ client.profile_pic }}"  alt=""/>
+            </a>
             {% endif %}
         </div>
         </div>

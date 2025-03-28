@@ -889,4 +889,10 @@ def project_card(request, project_id):
 
 
 def profile(request):
-    return render(request, "client/client_homepage.html", { 'client' : request.session  })
+    client_username=request.session.get('username')
+    client_dict= model_to_dict(Users.objects.get(username=client_username))
+    Cleint_model=Client.objects.get(user__username=client_username)
+    client_dict.update(model_to_dict(Cleint_model))
+    client_dict['profile_pic'] = Cleint_model.image.url if Cleint_model.image else None
+    print(client_dict)
+    return render(request, "client/client_homepage.html", { 'client' : client_dict })
