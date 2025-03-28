@@ -1,0 +1,101 @@
+.company-info {
+    padding: 1rem;
+}
+
+.company-info p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #444;
+}
+
+.company-info i {
+    color: rgb(1, 87, 87);
+    width: 20px;
+}
+
+.quick-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.action-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    background: rgb(1, 87, 87);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.action-link:hover {
+    background: rgb(2, 107, 107);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.project-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.project-card h3 {
+    color: rgb(1, 87, 87);
+    margin-bottom: 0.5rem;
+}
+
+.project-card p {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.account-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-item i {
+    font-size: 1.5rem;
+    color: rgb(1, 87, 87);
+}
+
+.info-content h3 {
+    color: rgb(1, 87, 87);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.info-content p {
+    color: #444;
+}
+
+@media (max-width: 768px) {
+    .account-info {
+        grid-template-columns: 1fr;
+    }
+}

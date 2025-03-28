@@ -149,3 +149,12 @@ body {
 .freelancer-card:hover {
     background-color: rgba(203, 202, 202, 0.44);
 }
+
+.freelancer-card{
+    display: flex;
+}
+
+.profile-picture img{
+    width : 2rem!important;
+}
+

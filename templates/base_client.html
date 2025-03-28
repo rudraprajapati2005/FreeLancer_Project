@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <!-- Common Navigation Bar -->
+        <div class="navbar">
+            <div class="logo">
+                <a href="#"><img src="" alt="Logo"></a>
+            </div>
+            <div class="navlinks">
+                <ul id="navs">
+                    <li><a href="{% url 'client-home-page' %}">Home</a></li>
+                    <li><a href="{% url 'client-my-projects' %}">My Projects</a></li>
+                    <li><a href="{% url 'client-create-project' %}">Post Project</a></li>
+                    <li><a href="{% url 'view_freelancers' %}">Find Freelancers</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <div class="postproject">
+                    <a href="{% url 'client-create-project' %}">Post New Project</a>
+                </div>
+                <div class="logout">
+                    <a href="{% url 'client-logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

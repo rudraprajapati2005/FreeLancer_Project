@@ -21,17 +21,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Add date validation
+    const deadlineInput = document.querySelector('input[type="date"]');
+    if (deadlineInput) {
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        deadlineInput.setAttribute('min', today);
+        
+        // Validate date on change
+        deadlineInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            const currentDate = new Date();
+            
+            // Reset time part for accurate date comparison
+            currentDate.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < currentDate) {
+                alert('Please select a future date for the project deadline.');
+                this.value = '';
+            }
+        });
+    }
+
     // Form submission handling
     const form = document.getElementById('projectForm');
     form.addEventListener('submit', function(e) {
-        e.preventDefault();
+        // Remove the preventDefault() to allow form submission
         if (validateForm()) {
-            // Simulate form submission
             showLoadingState();
-            setTimeout(() => {
-                showSuccessModal();
-                resetLoadingState();
-            }, 1500);
+            form.submit(); // Actually submit the form
+        } else {
+            e.preventDefault(); // Only prevent if validation fails
         }
     });
 });

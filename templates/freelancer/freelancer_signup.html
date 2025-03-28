@@ -5,169 +5,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freelancer Sign Up</title>
     {% load static %}
-        <style>
- body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
                 to bottom right, 
                 rgb(246, 246, 131) 0%,
                 rgba(238, 238, 157, 0.2) 40%
-              );
-    height: 100vh; /* Full viewport height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #333;
-    position: relative;
-}
+            );
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            position: relative;
+        }
 
-body::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 80vh; /* Set width to the desired size */
-    height: 80vh; /* Set height to the desired size */
-    background: url('{% static "AboutFreelancers/bg-img/Freelancerlogowithaperson.png" %}') no-repeat center;
-    background-size: contain; /* Ensure the image is contained within the specified size */
-    opacity: 1; /* Full opacity to prevent blending with the gradient */
-    z-index: -1;
-}
+        body::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 80vh;
+            height: 80vh;
+            background: url('{% static "AboutFreelancers/bg-img/Freelancerlogowithaperson.png" %}') no-repeat center;
+            background-size: contain;
+            opacity: 1;
+            z-index: -1;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: left;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
     </style>
     <link rel="stylesheet" href="{% static 'css/freelancer_signup.css' %}">
 </head>
 <body>
     <div class="container">
         <h1>Freelancer Sign Up</h1>
-        <form action="{% url 'freelancer-details-page'%}" method="POST">
+        <form action="{% url 'freelancer-signup-page' %}" method="POST">
             {% csrf_token %}
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" placeholder="Your Full Name" required>
+            
+            <!-- User Form Fields -->
+            <div class="form-group">
+                <label for="{{ user_form.name.id_for_label }}">Full Name</label>
+                {{ user_form.name }}
+                {% if error.error_name %}
+                    <span class="error-message">{{ error.error_name }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ user_form.email.id_for_label }}">Email</label>
+                {{ user_form.email }}
+                {% if error.error_email %}
+                    <span class="error-message">{{ error.error_email }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ user_form.username.id_for_label }}">Username</label>
+                {{ user_form.username }}
+                {% if error.error_username %}
+                    <span class="error-message">{{ error.error_username }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ user_form.password.id_for_label }}">Password</label>
+                {{ user_form.password }}
+                {% if error.error_password %}
+                    <span class="error-message">{{ error.error_password }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ user_form.phone.id_for_label }}">Phone Number</label>
+                {{ user_form.phone }}
+                {% if error.error_phone %}
+                    <span class="error-message">{{ error.error_phone }}</span>
+                {% endif %}
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="@googleAccount" required>
-            {% if error_email %}
-            <p class="error-message">{{ error_email }}</p>
-            {% endif %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter user name" required>
-            {% if error_username %}
-                <p class="error-message">{{ error_username }}</p>
-            {% endif %}
+            <!-- Freelancer Form Fields -->
+            <div class="form-group">
+                <label for="{{ freelancer_form.skills.id_for_label }}">Select Your Skills</label>
+                <div id="selectedSkills"></div>
+                <input type="hidden" id="selected_Skills" name="selected_skills">
+                <input type="text" id="searchSkills" placeholder="Search for skills...">
+                <ul id="skillsList" style="list-style-type: none; padding: 0;"></ul>
+                {% if error.error_skills %}
+                    <span class="error-message">{{ error.error_skills }}</span>
+                {% endif %}
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Set a strong password" required>
-
-            <label for="skills">Select Your Skills:</label>
-            <div id="selectedSkills"></div> <!-- This will display the selected skills as removable tags -->
-            <br>
-            <input type="hidden" id="selected_Skills" name="selected_skills">
-            <input type="text" id="searchSkills" placeholder="Search for skills...">
-            <ul id="skillsList" style="list-style-type: none; padding: 0;"></ul>
-            
-            <script>
-                const allSkills = [
-                    { value: "web_development", text: "Web Development" },
-                    { value: "graphic_design", text: "Graphic Design" },
-                    { value: "content_writing", text: "Content Writing" },
-                    { value: "digital_marketing", text: "Digital Marketing" },
-                    { value: "data_entry", text: "Data Entry" },
-                    { value: "video_editing", text: "Video Editing" },
-                    { value: "mobile_app_development", text: "Mobile App Development" },
-                    { value: "seo", text: "SEO" },
-                    { value: "copywriting", text: "Copywriting" },
-                    { value: "translation", text: "Translation" },
-                    { value: "social_media_management", text: "Social Media Management" },
-                    { value: "AboutFreelancergraphy", text: "AboutFreelancergraphy" },
-                    { value: "virtual_assistance", text: "Virtual Assistance" },
-                    { value: "software_development", text: "Software Development" },
-                    { value: "ui_ux_design", text: "UI/UX Design" },
-                    { value: "project_management", text: "Project Management" },
-                    { value: "illustration", text: "Illustration" },
-                    { value: "music_production", text: "Music Production" },
-                    { value: "3d_modeling", text: "3D Modeling" },
-                    { value: "email_marketing", text: "Email Marketing" },
-                    { value: "copy_editing", text: "Copy Editing" },
-                    { value: "resume_writing", text: "Resume Writing" }
-                ];
-            
-                const searchInput = document.getElementById('searchSkills');
-                const skillsList = document.getElementById('skillsList');
-                const selectedSkillsContainer = document.getElementById('selectedSkills');
-                const hiddenInput = document.getElementById('selected_Skills');
-                let selectedSkills = [];
-            
-                searchInput.addEventListener('input', function() {
-                    const query = this.value.toLowerCase().trim();
-                    skillsList.innerHTML = '';
-            
-                    if (query === '') {
-                        return;
-                    }
-            
-                    const filteredSkills = allSkills.filter(skill => skill.text.toLowerCase().includes(query));
-            
-                    filteredSkills.forEach(skill => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = skill.text;
-                        listItem.style.cursor = 'pointer';
-                        listItem.addEventListener('click', function() {
-                            addSkill(skill);
-                            searchInput.value = '';
-                            skillsList.innerHTML = '';
-                        });
-                        skillsList.appendChild(listItem);
-                    });
-                });
-            
-                function addSkill(skill) {
-                    // Check if the skill is already selected
-                    if (!selectedSkills.some(s => s.value === skill.value)) {
-                        selectedSkills.push(skill);
-                        updateSelectedSkills();
-                    }
-                }
-            
-                function removeSkill(skill) {
-                    // Remove the skill from the selected skills array
-                    selectedSkills = selectedSkills.filter(s => s.value !== skill.value);
-                    updateSelectedSkills();
-                }
-            
-                function updateSelectedSkills() {
-                    // Clear the current selected skills display
-                    selectedSkillsContainer.innerHTML = '';
-                    // Display all selected skills as tags
-                    selectedSkills.forEach(skill => {
-                        const skillTag = document.createElement('span');
-                        skillTag.textContent = skill.text + ' ×'; // '×' symbol to indicate removal
-                        skillTag.style.display = 'inline-block';
-                        skillTag.style.padding = '5px 10px';
-                        skillTag.style.margin = '5px 5px 0 0';
-                        skillTag.style.backgroundColor = '#007BFF';
-                        skillTag.style.color = '#fff';
-                        skillTag.style.borderRadius = '3px';
-                        skillTag.style.cursor = 'pointer';
-                        skillTag.addEventListener('click', function() {
-                            removeSkill(skill);
-                        });
-                        selectedSkillsContainer.appendChild(skillTag);
-                    });
-
-                    // Update the hidden input field's value
-                    hiddenInput.value = selectedSkills.map(skill => skill.value).join(',');
-                }
-
-            </script>
-
-            <button type="submit">Sign Up</button><br>
+            <button type="submit">Sign Up</button>
             <br>
             <hr>
             Already have an account? <a href="{% url 'freelancer-login-page' %}">Log In</a>
         </form>
+    </div>
 
-        </div>
+    <script>
+        const allSkills = [
+            { value: "web_development", text: "Web Development" },
+            { value: "graphic_design", text: "Graphic Design" },
+            { value: "content_writing", text: "Content Writing" },
+            { value: "digital_marketing", text: "Digital Marketing" },
+            { value: "data_entry", text: "Data Entry" },
+            { value: "video_editing", text: "Video Editing" },
+            { value: "mobile_app_development", text: "Mobile App Development" },
+            { value: "seo", text: "SEO" },
+            { value: "copywriting", text: "Copywriting" },
+            { value: "translation", text: "Translation" },
+            { value: "social_media_management", text: "Social Media Management" },
+            { value: "AboutFreelancergraphy", text: "AboutFreelancergraphy" },
+            { value: "virtual_assistance", text: "Virtual Assistance" },
+            { value: "software_development", text: "Software Development" },
+            { value: "ui_ux_design", text: "UI/UX Design" },
+            { value: "project_management", text: "Project Management" },
+            { value: "illustration", text: "Illustration" },
+            { value: "music_production", text: "Music Production" },
+            { value: "3d_modeling", text: "3D Modeling" },
+            { value: "email_marketing", text: "Email Marketing" },
+            { value: "copy_editing", text: "Copy Editing" },
+            { value: "resume_writing", text: "Resume Writing" }
+        ];
+
+        const selectedSkillsContainer = document.getElementById('selectedSkills');
+        const hiddenInput = document.getElementById('selected_Skills');
+        const searchInput = document.getElementById('searchSkills');
+        const skillsList = document.getElementById('skillsList');
+        let selectedSkills = [];
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            skillsList.innerHTML = '';
+            
+            if (query === '') {
+                return;
+            }
+    
+            const filteredSkills = allSkills.filter(skill => skill.text.toLowerCase().includes(query));
+    
+            filteredSkills.forEach(skill => {
+                const listItem = document.createElement('li');
+                listItem.textContent = skill.text;
+                listItem.style.cursor = 'pointer';
+                listItem.addEventListener('click', function() {
+                    addSkill(skill);
+                    searchInput.value = '';
+                    skillsList.innerHTML = '';
+                });
+                skillsList.appendChild(listItem);
+            });
+        });
+
+        function addSkill(skill) {
+            if (!selectedSkills.some(s => s.value === skill.value)) {
+                selectedSkills.push(skill);
+                updateSelectedSkills();
+            }
+        }
+
+        function removeSkill(skill) {
+            selectedSkills = selectedSkills.filter(s => s.value !== skill.value);
+            updateSelectedSkills();
+        }
+
+        function updateSelectedSkills() {
+            selectedSkillsContainer.innerHTML = '';
+            selectedSkills.forEach(skill => {
+                const skillTag = document.createElement('span');
+                skillTag.textContent = skill.text + ' ×';
+                skillTag.style.display = 'inline-block';
+                skillTag.style.padding = '5px 10px';
+                skillTag.style.margin = '5px 5px 0 0';
+                skillTag.style.backgroundColor = '#007BFF';
+                skillTag.style.color = '#fff';
+                skillTag.style.borderRadius = '3px';
+                skillTag.style.cursor = 'pointer';
+                skillTag.addEventListener('click', function() {
+                    removeSkill(skill);
+                });
+                selectedSkillsContainer.appendChild(skillTag);
+            });
+
+            hiddenInput.value = selectedSkills.map(skill => skill.value).join(',');
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ client.username }} - Client Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles-profile-page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/client-dashboard.css' %}">
+</head>
+<body>
+    {% if client.username %}
+    <div class="container">
+        <!-- Navbar -->
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">
+                    <img src=" " alt="Logo">
+                </a>
+            </div>
+            <div class="navlinks">
+                <ul id="navs">
+                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                    <li><a href="{% url 'client-my-projects' %}">My Projects</a></li>
+                    <li><a href="{% url 'client-add-project' %}">Post Project</a></li>
+                    <li><a href="{% url 'view_freelancers' %}">Find Freelancers</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                <div class="postproject">
+                    <a href="{% url 'user_type' %}">Home Page</a>
+                </div>
+                <div class="logout">
+                    <a href="{% url 'client-logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-left">
+                <div class="profile-image-container">
+                    {% if client.profile_pic %}
+                        <img src="{{ client.profile_pic }}" class="profile-image" alt="Profile Picture">
+                        <div class="change-profile-client">
+                            <form id="updateProfileForm" action="{% url 'upload-profile-client' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="file" name="image" id="updateFileInput" hidden onchange="submitFormOnFileSelect()">
+                                <label for="updateFileInput" class="upload-btn">
+                                    <i class="fas fa-camera"></i> Change Photo
+                                </label>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="profile-image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <form id="uploadForm" action="{% url 'upload-profile-client' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" name="image" id="UploadfileInput" hidden>
+                            <label for="UploadfileInput" class="upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Profile Picture
+                            </label>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <div class="profile-links-section">
+                    <div class="profile-section">
+                        <h2>Company Details</h2>
+                        <div class="company-info editable-section">
+                            <div class="info-text">
+                                <p><i class="fas fa-building"></i> 
+                                    <span>{{ client.companyname }}</span>
+                                    <i class="fas fa-edit edit-icon" data-field="company" title="Edit company name"></i>
+                                </p>
+                                <p><i class="fas fa-map-marker-alt"></i> 
+                                    <span>{{ client.address }}</span>
+                                    <i class="fas fa-edit edit-icon" data-field="address" title="Edit address"></i>
+                                </p>
+                                <p><i class="fas fa-envelope"></i> 
+                                    <span>{{ client.businessEmail }}</span>
+                                    <i class="fas fa-edit edit-icon" data-field="business_email" title="Edit business email"></i>
+                                </p>
+                            </div>
+                            
+                            <!-- Edit Forms -->
+                            <div id="company-form" class="edit-form" style="display: none;">
+                                <form action="{% url 'save-client-details' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="field_type" value="company">
+                                    <textarea name="description" placeholder="Enter company name">{{ client.companyname }}</textarea>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="save-btn">Save</button>
+                                        <button type="button" class="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="address-form" class="edit-form" style="display: none;">
+                                <form action="{% url 'save-client-details' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="field_type" value="address">
+                                    <textarea name="description" placeholder="Enter address">{{ client.address }}</textarea>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="save-btn">Save</button>
+                                        <button type="button" class="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="business_email-form" class="edit-form" style="display: none;">
+                                <form action="{% url 'save-client-details' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="field_type" value="business_email">
+                                    <textarea name="description" placeholder="Enter business email">{{ client.businessEmail }}</textarea>
+                                    <div class="form-buttons">
+                                        <button type="submit" class="save-btn">Save</button>
+                                        <button type="button" class="cancel-btn">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Quick Actions</h2>
+                        <div class="quick-links">
+                            <a href="{% url 'client-add-project' %}" class="action-link">
+                                <i class="fas fa-plus-circle"></i> Post New Project
+                            </a>
+                            <a href="{% url 'view_freelancers' %}" class="action-link">
+                                <i class="fas fa-users"></i> Browse Freelancers
+                            </a>
+                            <a href="#" class="action-link">
+                                <i class="fas fa-tasks"></i> Manage Projects
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-right">
+                <div class="profile-header">
+                    <h1>Welcome, {{ client.name }}!</h1>
+                    <p class="title">Client Dashboard</p>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Active Projects</h2>
+                    <div class="projects-grid">
+                        <!-- Add your projects loop here -->
+                        <div class="project-card">
+                            <h3>No active projects</h3>
+                            <p>Start by posting your first project!</p>
+                            <a href="{% url 'client-create-project' %}" class="btn-custom">Post Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h2>Account Information</h2>
+                    <div class="account-info">
+                        <div class="info-item">
+                            <i class="fas fa-user"></i>
+                            <div class="info-content">
+                                <h3>Username</h3>
+                                <p>{{ client.username }}</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="info-content">
+                                <h3>Email</h3>
+                                <p>{{ client.email }}</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="info-content">
+                                <h3>Phone</h3>
+                                <p>{{ client.phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <!-- ...existing footer code... -->
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editableSections = document.querySelectorAll('.editable-section');
+
+            editableSections.forEach(section => {
+                const editIcons = section.querySelectorAll('.edit-icon');
+                
+                editIcons.forEach(icon => {
+                    const fieldType = icon.dataset.field;
+                    const form = document.getElementById(`${fieldType}-form`);
+                    const textElement = icon.parentElement;
+                    const cancelBtn = form.querySelector('.cancel-btn');
+
+                    icon.addEventListener('click', () => {
+                        form.style.display = 'block';
+                        textElement.style.display = 'none';
+                    });
+
+                    cancelBtn.addEventListener('click', () => {
+                        form.style.display = 'none';
+                        textElement.style.display = 'flex';
+                    });
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            function submitFormOnFileSelect() {
+                var form = document.getElementById('uploadForm');
+                if (form) {
+                    form.submit();
+                }
+            }
+
+            var fileInput = document.getElementById('UploadfileInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', submitFormOnFileSelect);
+            }
+
+            // For update form
+            function submitUpdateFormOnFileSelect() {
+                var form = document.getElementById('updateProfileForm');
+                if (form) {
+                    form.submit();
+                }
+            }
+
+            var updateFileInput = document.getElementById('updateFileInput');
+            if (updateFileInput) {
+                updateFileInput.addEventListener('change', submitUpdateFormOnFileSelect);
+            }
+        });
+    </script>
+
+    {% endif %}
+</body>
+</html>

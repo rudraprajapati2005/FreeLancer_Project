@@ -1,21 +1,36 @@
 from django.db import models
-from django.contrib.auth.models import User
-class Freelancer(models.Model):
-    name = models.CharField(max_length=255,unique=False)
+from django.core.validators import RegexValidator
+
+class Users(models.Model):
+    name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    skills = models.TextField()  # Store the skills as a comma-separated string
+    user_type = models.CharField(max_length=10, choices=[('client', 'Client'), ('freelancer', 'Freelancer')])
+    phone = models.CharField(max_length=10, null=True, blank=True)
 
-class   AboutFreelancer(models.Model):
-    username=models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return self.username
+
+class Freelancer(models.Model):
+    user = models.OneToOneField(Users, on_delete=models.CASCADE, related_name='freelancer_profile')
+    skills = models.TextField()
+    
+    def __str__(self):
+        return self.user.username
+
+class AboutFreelancer(models.Model):
+    username = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='AboutFreelancers/profile_pic')
-    about_freelancer=models.TextField(null=True )
-    gitLinks=models.TextField(null=True)
-    links=models.TextField(null=True)
-    freelancer = models.ForeignKey(Freelancer, to_field='username', on_delete=models.CASCADE, related_name='about_freelancer',null=True,blank=True)
+    about_freelancer = models.TextField(null=True, blank=True)
+    gitLinks = models.TextField(null=True, blank=True)
+    links = models.TextField(null=True, blank=True)
+    experience = models.TextField(null=True, blank=True)
+    freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE, related_name='about_freelancer', null=True, blank=True)
 
-       
+    def __str__(self):
+        return f"{self.freelancer.user.username}'s Profile"
+
 INDIAN_STATES = [
     ('', 'Select State'),
     ('AP', 'Andhra Pradesh'),
@@ -54,15 +69,17 @@ INDIAN_STATES = [
     ('LD', 'Lakshadweep'),
     ('PY', 'Puducherry'),
 ]
+
 class Client(models.Model):
-    username=models.CharField(max_length=255,unique=True,blank=True, null=True)
-    name = models.CharField(max_length=255,unique=False)
-    companyname = models.CharField(max_length=255,null=False,blank=False)
-    address = models.TextField(max_length=1024,blank=False,null=False)
-    state = models.CharField(max_length=255,choices=INDIAN_STATES,blank=False, null=False)
-    businessEmail = models.EmailField(unique=False)
-    phone=models.CharField(max_length=10,unique=False)
-    password = models.CharField(max_length=255,null=False,blank=False,default='password')
+    user = models.OneToOneField(Users, on_delete=models.CASCADE, related_name='client_profile')
+    image = models.ImageField(upload_to='Client/profile_pic', null=True, blank=True)
+    companyname = models.CharField(max_length=255)
+    address = models.TextField(max_length=1024)
+    state = models.CharField(max_length=255, choices=INDIAN_STATES)
+    businessEmail = models.EmailField()
+
+    def __str__(self):
+        return self.user.username
 
 STATUS_CHOICES = [
     ('open', 'Open'),
@@ -79,21 +96,7 @@ class Project(models.Model):
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     deadline = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
-    posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_projects')
+    posted_by = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='posted_projects')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    
-class freelancer_additional_details(models.Model):
-    freelancer=models.ForeignKey(Freelancer,to_field='username',on_delete=models.CASCADE)
-    about=models.TextField(unique=False)
-    links=models.TextField(unique=False)
-    experience=models.TextField(unique=False)
-
-class Users(models.Model):
-    name=models.CharField(max_length=255,unique=False)
-    email=models.EmailField(unique=True)
-    username=models.CharField(max_length=255,unique=True)
-    password=models.CharField(max_length=255)
-    user_type=models.CharField(max_length=255,unique=False)
 

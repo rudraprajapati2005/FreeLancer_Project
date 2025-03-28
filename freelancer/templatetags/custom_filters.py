@@ -12,3 +12,7 @@ def split(value, delimiter=','):
         # Split by delimiter, strip whitespace, and replace underscores with spaces
         return [x.strip().replace('_', ' ').title() for x in value.split(delimiter)]
     return []
+
+@register.filter
+def trim(value):
+    return value.strip()

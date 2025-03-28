@@ -334,7 +334,7 @@ transition: transform 0.3s ease-in-out;
     padding: 0.5rem 1rem;
     margin: 0.25rem;
     border-radius: 20px;
-    background: rgb(28, 76, 187)
+    background: rgb(28, 76, 187);
     transition: all 0.3s ease;
 }
 
@@ -872,3 +872,42 @@ footer .container {
         padding: 0.8rem;
     }
 }
+
+
+/* CSS for the Skills - form  */
+
+#skills-form
+{
+    display: none;
+    position:fixed;
+    top:50%;
+    left: 50%;
+    width: 60rem;
+    height: 40rem;
+    transform: translate(-50%, -50%);
+
+    Z-index:2;
+    background-color: #ededed;
+}
+#skills-form .skills-input-container{
+    
+    padding: 1rem;
+    width : calc(100%);
+
+}
+#skills-form #searchSkills{
+    width: inherit;
+    height : 5rem;
+    border-radius: 10rem;
+    border-color: white;
+    padding: 1rem;
+    
+}
+#skills-form #searchSkills::placeholder{
+    font-family:'Lucida Calligraphy';
+    font-size: 14px;
+    color: grey;
+    margin-left:1rem ;
+    padding-left: 1rem;
+}
+

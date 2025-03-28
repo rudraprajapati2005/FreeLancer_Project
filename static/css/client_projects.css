@@ -1,0 +1,253 @@
+.project-container {
+    width: 100%;
+    padding: 20px;
+}
+
+.project-content {
+    width: 100%;
+}
+
+.project-content h1 {
+    color: rgb(1, 87, 87);
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.search-bar {
+    margin-bottom: 2rem;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.search-bar input:focus {
+    border-color: rgb(1, 87, 87);
+    box-shadow: 0 4px 15px rgba(1, 87, 87, 0.2);
+    outline: none;
+}
+
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.project-card {
+    position: relative;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: #333;
+    border-left: 5px solid rgb(1, 87, 87);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+    opacity: 1 !important; /* Force opacity */
+}
+
+.project-card:hover {
+    transform: translateY(-8px) !important; /* Force transform on hover */
+    box-shadow: 0 15px 30px rgba(1, 87, 87, 0.2);
+    border-left: 5px solid rgb(2, 107, 107);
+}
+
+/* Add hover effects for child elements */
+.project-card:hover h2 {
+    color: rgb(2, 107, 107);
+}
+
+.project-card:hover .skill-tag {
+    background-color: rgb(1, 87, 87);
+    color: white;
+}
+
+.project-card:hover .project-budget {
+    color: rgb(2, 107, 107);
+}
+
+.project-card h2 {
+    font-size: 1.5rem;
+    color: rgb(1, 87, 87);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.project-card h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background: rgb(1, 87, 87);
+    border-radius: 2px;
+}
+
+.skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+}
+
+.skill-tag {
+    background: rgba(1, 87, 87, 0.1);
+    color: rgb(1, 87, 87);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.project-card:hover .skill-tag {
+    background: rgb(1, 87, 87);
+    color: white;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 1rem 0;
+}
+
+.status-open {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #1976d2;
+}
+
+.status-in_progress {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    color: #f57c00;
+}
+
+.status-completed {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: #388e3c;
+}
+
+.status-closed {
+    background: linear-gradient(135deg, #f5f5f5, #eeeeee);
+    color: #616161;
+}
+
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.project-budget {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgb(1, 87, 87);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-budget i {
+    font-size: 1rem;
+}
+
+.project-date {
+    color: #666;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.no-projects {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    border: 2px dashed rgba(1, 87, 87, 0.2);
+}
+
+.no-projects i {
+    font-size: 4rem;
+    color: rgb(1, 87, 87);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.no-projects p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    background: rgb(1, 87, 87);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: rgb(2, 107, 107);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(1, 87, 87, 0.2);
+}
+
+@media (max-width: 768px) {
+    .project-container {
+        padding: 10px;
+    }
+    
+    .project-list {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .project-content h1 {
+        font-size: 2rem;
+    }
+    
+    .project-card {
+        padding: 1.5rem;
+        min-height: 200px;
+    }
+}
