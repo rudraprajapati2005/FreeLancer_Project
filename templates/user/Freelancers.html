@@ -20,6 +20,17 @@
             margin-bottom: 15px;
             gap : 1rem;
         }
+        .freelancer-card a {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+        .profile-picture {
+            flex: 0 0 100px;  /* Fixed width for image container */
+            margin-right: 20px;
+        }
         .profile-picture img {
             width: 100px!important;
             height: 100px;
@@ -41,7 +52,10 @@
             color: #ccd0d5;
         }
         .freelancer-info {
-            flex: 1;
+            flex: 1;  /* Take remaining space */
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
         .freelancer-info h2 {
             margin: 0;
@@ -58,6 +72,7 @@
             padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
+            width: max-content;
         }
         .hire-btn:hover {
             background: #0056b3;
@@ -113,21 +128,23 @@
                 <div class="freelancer-list">
                     {% for freelancer in freelancers %}
                     <div class="freelancer-card">
-                        <div class="profile-picture">
-                            {% if freelancer.profile_pic %}
-                                <img src="{{ freelancer.profile_pic }}" alt="{{ freelancer.name }}'s image">
-                            {% else %}
-                                <div class="profile-image-placeholder">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="freelancer-info">
-                            <h2>{{ freelancer.name }}</h2>
-                            <p><strong>Expertise:</strong> {{ freelancer.skills }}</p>
-                            <p class="hourly-rate"><strong>Hourly Rate:</strong> ${{ freelancer.hourly_rate|default:"Negotiable" }}/hr</p>
-                            <button class="hire-btn">Hire Me</button>
-                        </div>
+                        <a href="{% url 'view_freelancer_profile' username=freelancer.username %}" class="freelancer-link">
+                            <div class="profile-picture">
+                                {% if freelancer.profile_pic %}
+                                    <img src="{{ freelancer.profile_pic }}" alt="{{ freelancer.name }}'s image">
+                                {% else %}
+                                    <div class="profile-image-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="freelancer-info">
+                                <h2>{{ freelancer.name }}</h2>
+                                <p><strong>Expertise:</strong> {{ freelancer.skills }}</p>
+                                <p class="hourly-rate"><strong>Hourly Rate:</strong> ${{ freelancer.hourly_rate|default:"Negotiable" }}/hr</p>
+                                <button class="hire-btn">Hire Me</button>
+                            </div>
+                        </a>
                     </div>
                     {% endfor %}
                 </div>

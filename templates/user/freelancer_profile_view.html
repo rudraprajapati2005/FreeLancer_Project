@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ freelancer.name }} - Profile</title>
+    {% load static %}
+    {% load custom_filters %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles-profile-page.css' %}">
+</head>
+<body>
+    <div class="container">
+        {% if request.session.user_type == 'freelancer' %}
+            {% include 'freelancer/freelancer_navbar.html' %}
+        {% elif request.session.user_type == 'client' %}
+            {% include 'client/client_navbar.html' %}
+        {% else %}
+            {% include 'user/navbar.html' %}
+        {% endif %}
+
+        <div class="profile-content">
+            <div class="profile-left">
+                <div class="profile-image-container">
+                    {% if freelancer.profile_pic %}
+                        <img src="{{ freelancer.profile_pic }}" class="profile-image" alt="Profile Picture">
+                    {% else %}
+                        <div class="profile-image-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="profile-links-section">
+                    {% if freelancer.gitLinks %}
+                    <div class="profile-section">
+                        <h2>Git Links</h2>
+                        <div class="git-links">
+                            {{ freelancer.gitLinks|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if freelancer.links %}
+                    <div class="profile-section">
+                        <h2>Other Links</h2>
+                        <div class="other-links">
+                            {{ freelancer.links|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="profile-right">
+                <div class="profile-header">
+                    <h1>{{ freelancer.name }}</h1>
+                    <p class="title">Professional Freelancer</p>
+                </div>
+
+                {% if freelancer.about_freelancer %}
+                <div class="profile-section">
+                    <h2>About</h2>
+                    <div class="about-content">
+                        {{ freelancer.about_freelancer|linebreaks }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if freelancer.skills %}
+                <div class="profile-section">
+                    <h2>Skills</h2>
+                    <div class="skills-container">
+                        <div class="skills-list">
+                            {% for skill in freelancer.skills|split:"," %}
+                                <span class="skill-tag">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="profile-section">
+                    <h2>Contact Information</h2>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> {{ freelancer.email }}</p>
+                        {% if request.session.user_type == 'client' %}
+                            <a href="#" class="contact-btn">Contact Freelancer</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

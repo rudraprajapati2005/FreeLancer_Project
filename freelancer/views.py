@@ -1001,3 +1001,37 @@ def submit_bid(request, project_id):
         return redirect('project_card', project_id=project_id)
 
     return redirect('project_card', project_id=project_id)
+
+def view_freelancer_profile(request, username):
+    try:
+        # Get the user and freelancer objects
+        user = Users.objects.get(username=username, user_type='freelancer')
+        freelancer = Freelancer.objects.get(user=user)
+        
+        # Create base freelancer dictionary
+        freelancer_data = {
+            'username': user.username,
+            'name': user.name,
+            'email': user.email,
+            'skills': freelancer.skills
+        }
+        
+        # Get about freelancer data if exists
+        try:
+            about_freelancer = AboutFreelancer.objects.get(username=username)
+            if about_freelancer.image:
+                freelancer_data['profile_pic'] = about_freelancer.image.url
+            freelancer_data['about_freelancer'] = about_freelancer.about_freelancer
+            freelancer_data['gitLinks'] = about_freelancer.gitLinks
+            freelancer_data['links'] = about_freelancer.links
+        except AboutFreelancer.DoesNotExist:
+            pass
+            
+        return render(request, 'user/freelancer_profile_view.html', {
+            'freelancer': freelancer_data,
+            'user_type': request.session.get('user_type')
+        })
+        
+    except (Users.DoesNotExist, Freelancer.DoesNotExist):
+        messages.error(request, 'Freelancer not found.')
+        return redirect('view_freelancers')
