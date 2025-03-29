@@ -1,10 +1,11 @@
 from django.shortcuts import render,HttpResponse
-from .models import Freelancer,AboutFreelancer,Project,Client,Users
+from .models import Freelancer,AboutFreelancer,Project,Client,Users,Bid 
 from .forms import AboutFreelancerForm,FreelancerForm,ProjectForm,ClientForm,UsersForm
 from django.forms.models import model_to_dict
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.middleware.csrf import get_token
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
@@ -307,6 +308,7 @@ def freelancer_signup(request):
                 request.session['name'] = user.name
                 request.session['email'] = user.email
                 request.session['phone'] = phone
+                request.session['user_type'] = 'freelancer'
                 request.session['my_freelancer_dic'] = model_to_dict(freelancer)
 
                 messages.success(request, 'Account created successfully!')
@@ -560,6 +562,7 @@ def freelancer_login(request):
             request.session['name'] = user.name
             request.session['email'] = user.email
             request.session['phone'] = user.phone
+            request.session['user_type'] = 'freelancer'
             request.session['my_freelancer_dic'] = freelancer_dict
 
             messages.success(request, 'Login successful!')
@@ -873,20 +876,23 @@ def client_my_projects(request):
     except (Users.DoesNotExist, Client.DoesNotExist):
         return redirect('client-login-page')
 
+@ensure_csrf_cookie
 def project_card(request, project_id):
+    # Get CSRF token
+    csrf_token = get_token(request)
     project = get_object_or_404(Project, id=project_id)
-    project_dict=model_to_dict(project)
+    project_dict = model_to_dict(project)
     skill = [s.replace('_', ' ') for s in project.skills_required.split(",")]
-    project_dict['skills']=skill
-    client_info_model=project.posted_by
-    client_info_dict=model_to_dict(client_info_model)
-    client_user_info=model_to_dict(client_info_model.user)
+    project_dict['skills'] = skill
+    client_info_model = project.posted_by
+    client_info_dict = model_to_dict(client_info_model)
+    client_user_info = model_to_dict(client_info_model.user)
     project_dict.update(client_user_info)
     project_dict.update(client_info_dict)
-    print(project_dict)
-    return render(request,"user/Project_information.html",
-                   {'project' : project_dict})
-
+    return render(request, "user/Project_information.html", {
+        'project': project_dict,
+        'csrf_token': csrf_token
+    })
 
 def profile(request):
     client_username=request.session.get('username')
@@ -896,3 +902,56 @@ def profile(request):
     client_dict['profile_pic'] = Cleint_model.image.url if Cleint_model.image else None
     print(client_dict)
     return render(request, "client/client_homepage.html", { 'client' : client_dict })
+
+def submit_bid(request, project_id):
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please login to submit a bid')
+        return redirect('freelancer-login-page')
+        
+    if request.method == 'POST':
+        try:
+            username = request.session.get('username')
+            user = Users.objects.get(username=username, user_type='freelancer')
+            freelancer = Freelancer.objects.get(user=user)
+            project = Project.objects.get(id=project_id)
+
+            # Check if freelancer has already bid on this project
+            existing_bid = Bid.objects.filter(project=project, freelancer=freelancer).first()
+            if existing_bid:
+                messages.error(request, 'You have already placed a bid on this project')
+                return redirect('project_card', project_id=project_id)
+
+            # Convert amount to Decimal
+            from decimal import Decimal
+            bid_amount = Decimal(request.POST.get('amount'))
+
+            # Create new bid without budget restriction
+            bid = Bid.objects.create(
+                project=project,
+                freelancer=freelancer,
+                amount=bid_amount,
+                delivery_time=request.POST.get('delivery_time'),
+                proposal_text=request.POST.get('proposal_text'),
+                technical_approach=request.POST.get('technical_approach'),
+                milestone_breakdown=request.POST.get('milestone_breakdown')
+            )
+
+            if 'attachments' in request.FILES:
+                bid.attachments = request.FILES['attachments']
+                bid.save()
+
+            messages.success(request, f'Your bid of ${bid_amount} has been submitted successfully!')
+            return redirect('project_card', project_id=project_id)
+
+        except ValueError:
+            messages.error(request, 'Please enter a valid bid amount')
+        except (Users.DoesNotExist, Freelancer.DoesNotExist):
+            messages.error(request, 'You must be logged in as a freelancer to place bids')
+            return redirect('freelancer-login-page')
+        except Project.DoesNotExist:
+            messages.error(request, 'Project not found')
+            return redirect('browse_projects')
+        except Exception as e:
+            messages.error(request, f'An error occurred: {str(e)}')
+
+    return redirect('project_card', project_id=project_id)

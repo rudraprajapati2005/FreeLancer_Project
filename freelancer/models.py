@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 class Users(models.Model):
     name = models.CharField(max_length=255)
@@ -100,4 +101,36 @@ class Project(models.Model):
     posted_by = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='posted_projects')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Bid(models.Model):
+    BID_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('withdrawn', 'Withdrawn'),
+    ]
+    bid_id=models.AutoField(primary_key=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='bids')
+    freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE, related_name='bids')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    delivery_time = models.IntegerField(help_text="Delivery time in days")
+    proposal_text = models.TextField(help_text="Your detailed proposal explaining how you'll handle the project")
+    proposal_highlights = models.TextField(null=True, blank=True, 
+        help_text="Key points of your proposal (optional)")
+    technical_approach = models.TextField(null=True, blank=True,
+        help_text="Your technical approach to the project (optional)")
+    status = models.CharField(max_length=20, choices=BID_STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    milestone_breakdown = models.TextField(null=True, blank=True, 
+        help_text="Breakdown of project milestones and deliverables")
+    attachments = models.FileField(upload_to='bid_attachments/', null=True, blank=True)
+    
+    class Meta:
+        unique_together = ['project', 'freelancer']
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Bid by {self.freelancer.user.username} on {self.project.title}"
 

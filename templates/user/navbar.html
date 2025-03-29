@@ -16,13 +16,20 @@
       </div>
       <div class="navlinks">
         <ul id="navs">
-          <li><a href="Home.html">Home</a></li>
+          <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-          {% if request.session %}
-          <li><a href="b">Manage Project</a></li>
-          {% endif %}
+         
           <li><a href="c">Freelancers</a></li>
           <li><a href="d">About</a></li>
+          {% if request.session.user_type == 'freelancer' %}
+          <li><a href="{% url 'freelancer-home' %}">Dashboard</a></li>
+          <li><a href="{% url 'freelancer-logout' %}" class="logout-link">Logout</a></li>
+        {% elif request.session.user_type == 'client' %}
+          <li><a href="{% url 'client-home-page' %}">Dashboard</a></li>
+          <li><a href="{% url 'client-logout' %}" class="logout-link">Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'user_type' %}">Login/Register</a></li>
+        {% endif %}
         </ul>
 
         {% if request.session %}
@@ -48,5 +55,14 @@
         </div>
       </div>
     </div>
+    <!-- Add CSS styles -->
+    <style>
+        .logout-link {
+            color: #dc3545 !important;
+        }
+        .logout-link:hover {
+            color: #c82333 !important;
+        }
+    </style>
   </body>
 </html>

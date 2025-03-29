@@ -1,5 +1,5 @@
 from django import forms
-from .models import Freelancer, AboutFreelancer, Client, Project, Users
+from .models import Freelancer, AboutFreelancer, Client, Project, Users, Bid
 from datetime import date
 
 class FreelancerForm(forms.ModelForm):
@@ -95,3 +95,62 @@ class UsersForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'input-text', 'placeholder': 'Enter your password', 'required': 'required'}),
             'phone': forms.TextInput(attrs={'class': 'input-text', 'pattern': '^[6789][0-9]{9}$', 'placeholder': 'Enter your phone number'}),
         }
+
+class BidForm(forms.ModelForm):
+    class Meta:
+        model = Bid
+        fields = [
+            'amount',
+            'delivery_time',
+            'proposal_text',
+            'proposal_highlights',
+            'technical_approach',
+            'milestone_breakdown',
+            'attachments'
+        ]
+        
+        widgets = {
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your bid amount',
+                'min': '0',
+                'step': '0.01'
+            }),
+            'delivery_time': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Number of days to complete',
+                'min': '1'
+            }),
+            'proposal_text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Write your detailed proposal',
+                'rows': 5
+            }),
+            'proposal_highlights': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Key points of your proposal (optional)',
+                'rows': 3
+            }),
+            'technical_approach': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Describe your technical approach (optional)',
+                'rows': 3
+            }),
+            'milestone_breakdown': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Break down your delivery milestones (optional)',
+                'rows': 3
+            }),
+            'attachments': forms.FileInput(attrs={
+                'class': 'form-control',
+                'accept': '.pdf,.doc,.docx,.txt'
+            })
+        }
+
+    def clean_amount(self):
+        amount = self.cleaned_data['amount']
+        if 'project' in self.initial:
+            project = self.initial['project']
+            if amount < project.budget:
+                raise forms.ValidationError("Bid amount cannot be less than project budget")
+        return amount

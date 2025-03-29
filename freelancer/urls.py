@@ -23,5 +23,6 @@ urlpatterns = [
     path("client-save-details", views.save_client_details, name="save-client-details"),
     path("client/my-projects/", views.client_my_projects, name="client-my-projects"),
     path('project/<int:project_id>/', views.project_card, name='project_card'),
-    path('profile', views.profile, name='profile')
+    path('profile', views.profile, name='profile'),
+    path('submit-bid/<int:project_id>/', views.submit_bid, name='submit-bid'),
 ]
