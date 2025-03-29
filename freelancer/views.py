@@ -1035,3 +1035,9 @@ def view_freelancer_profile(request, username):
     except (Users.DoesNotExist, Freelancer.DoesNotExist):
         messages.error(request, 'Freelancer not found.')
         return redirect('view_freelancers')
+
+
+def about(request):
+    return render(request, 'user/about.html', {
+        'user_type': request.session.get('user_type')
+    })

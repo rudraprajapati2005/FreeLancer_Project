@@ -79,15 +79,21 @@ footer .container {
 	margin:0 10px 10px 0;
 	text-align: center;
 	line-height: 40px;
-	border-radius: 50%;
+	border-radius: 8px;
 	color: #ffffff;
 	transition: all 0.5s ease;
+    justify-items: center;
+    overflow: hidden;
 }
 .footer-col .social-links a:hover{
 	color: #24262b;
 	background-color: #ffffff;
 }
-
+.footer-col .social-links a img{
+    width: 38px!important;
+    height: 38px;
+    margin-right: 20px;
+}
 /*responsive*/
 @media(max-width: 767px){
   .footer-col{
@@ -128,3 +134,7 @@ footer .container {
     background-color: aqua !important;
 }
 
+.footer-col .social-links a .fa-instagram-f{
+    width: 40px!important;
+    height: 40px;
+}

@@ -26,4 +26,5 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('submit-bid/<int:project_id>/', views.submit_bid, name='submit-bid'),
          path('freelancer/<str:username>/', views.view_freelancer_profile, name='view_freelancer_profile'),
+    path("about/", views.about, name="about")
 ]
