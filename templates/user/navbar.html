@@ -19,7 +19,7 @@
           <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
          
-          <li><a href="c">Freelancers</a></li>
+          <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
           <li><a href="d">About</a></li>
           {% if request.session.user_type == 'freelancer' %}
           <li><a href="{% url 'freelancer-home' %}">Dashboard</a></li>

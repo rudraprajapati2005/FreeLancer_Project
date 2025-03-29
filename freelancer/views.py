@@ -707,8 +707,8 @@ def view_freelancers(request):
     
     for fr in freelancers:
         fr.skills = fr.skills.replace('_', ' ')
-        if AboutFreelancer.objects.filter(username=fr.username):
-            user_freelancer=AboutFreelancer.objects.get(username=fr.username)
+        if AboutFreelancer.objects.filter(username=fr.user.username):
+            user_freelancer=AboutFreelancer.objects.get(username=fr.user.username)
             fr.profile_pic=user_freelancer.image.url
         
     return render(request, 'user/Freelancers.html', {'freelancers': freelancers})
