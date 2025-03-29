@@ -20,7 +20,7 @@
           <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
          
           <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
-          <li><a href="d">About</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
           {% if request.session.user_type == 'freelancer' %}
           <li><a href="{% url 'freelancer-home' %}">Dashboard</a></li>
           <li><a href="{% url 'freelancer-logout' %}" class="logout-link">Logout</a></li>

@@ -12,13 +12,9 @@
 </head>
 <body>
     <div class="container">
-        {% if request.session.user_type == 'freelancer' %}
-            {% include 'freelancer/freelancer_navbar.html' %}
-        {% elif request.session.user_type == 'client' %}
-            {% include 'client/client_navbar.html' %}
-        {% else %}
+        
             {% include 'user/navbar.html' %}
-        {% endif %}
+
 
         <div class="profile-content">
             <div class="profile-left">
@@ -90,8 +86,404 @@
                         {% endif %}
                     </div>
                 </div>
+
+                <!-- Reviews Section -->
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <h2>Client Reviews & Feedback</h2>
+                        <div class="rating-summary">
+                            <div class="average-rating">
+                                <span class="rating-number">{{ freelancer.average_rating|default:"0.0" }}</span>
+                                <div class="stars-wrapper">
+                                    {% for i in "12345"|make_list %}
+                                        <i class="fas fa-star {% if forloop.counter <= freelancer.average_rating%}active{% endif %}"></i>
+                                    {% endfor %}
+                                </div>
+                                
+                                <span class="review-count">({{ freelancer.reviews_received.count }} reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if request.session.user_type == 'client' %}
+                    <div class="review-form-container">
+                        <button id="writeReviewBtn" class="write-review-btn">
+                            <i class="fas fa-pen"></i> Write a Review
+                        </button>
+                        <form id="reviewForm" class="review-form" action="{% url 'submit_review' freelancer.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="rating-input">
+                                <label>Your Rating</label>
+                                <div class="star-rating">
+                                    {% for i in "54321"|make_list %}
+                                        <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required>
+                                        <label for="star{{ i }}" title="{{ i }} stars">
+                                            <i class="fas fa-star"></i>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="comment-input">
+                                <label>Your Review</label>
+                                <textarea name="comment" required placeholder="Share your experience working with this freelancer..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="submit-review">Submit Review</button>
+                                <button type="button" class="cancel-review">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    <div class="reviews-list">
+                        {% for review in freelancer.reviews_received %}
+                            <div class="review-card" data-aos="fade-up">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        {% if review.client.image %}
+                                            <img src="{{ review.client.image.url }}" alt="Reviewer" class="reviewer-avatar">
+                                        {% else %}
+                                            <div class="reviewer-avatar-placeholder">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="reviewer-details">
+                                            <h4 class="reviewer-name">{{ review.client.user.name }}</h4>
+                                            <span class="review-date">{{ review.created_at|date:"F d, Y" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="review-rating">
+                                        {% for i in "12345"|make_list %}
+                                            <i class="fas fa-star {% if forloop.counter <= review.rating %}active{% endif %}"></i>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="review-content">
+                                    {{ review.comment }}
+                                </div>
+                                {% if review.project %}
+                                    <div class="review-project">
+                                        <i class="fas fa-project-diagram"></i>
+                                        Project: {{ review.project.title }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <div class="no-reviews">
+                                <i class="fas fa-comment-alt"></i>
+                                <p>No reviews yet</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .reviews-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .review-form {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .rating-input, .comment-input {
+            margin-bottom: 1rem;
+        }
+        .rating-input select {
+            padding: 0.5rem;
+            width: 200px;
+        }
+        .comment-input textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.5rem;
+        }
+        .submit-review-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .review-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .review-rating .fa-star {
+            color: #ddd;
+        }
+        .review-rating .fa-star.active {
+            color: #ffd700;
+        }
+        .review-date {
+            color: #666;
+        }
+        .reviews-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .rating-summary {
+            text-align: center;
+        }
+
+        .average-rating {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rating-number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stars-wrapper {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .stars-wrapper .fa-star {
+            font-size: 1.2rem;
+            color: #ddd;
+            transition: color 0.2s ease;
+        }
+
+        .stars-wrapper .fa-star.active {
+            color: #ffc107;
+        }
+
+        .review-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .review-form-container {
+            margin-bottom: 2rem;
+        }
+
+        .write-review-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .write-review-btn:hover {
+            background: #0056b3;
+        }
+
+        .review-form {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 8px;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            cursor: pointer;
+            color: #ddd;
+            font-size: 1.5rem;
+        }
+
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #ffc107;
+        }
+
+        .comment-input textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .submit-review,
+        .cancel-review {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .submit-review {
+            background: #28a745;
+            color: white;
+        }
+
+        .cancel-review {
+            background: #dc3545;
+            color: white;
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reviewer-avatar,
+        .reviewer-avatar-placeholder {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .reviewer-avatar-placeholder {
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reviewer-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reviewer-name {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .review-date {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .review-content {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .review-project {
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-reviews i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .review-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const writeReviewBtn = document.getElementById('writeReviewBtn');
+            const reviewForm = document.getElementById('reviewForm');
+            const cancelReviewBtn = document.querySelector('.cancel-review');
+
+            if (writeReviewBtn) {
+                writeReviewBtn.addEventListener('click', function() {
+                    reviewForm.style.display = 'block';
+                    writeReviewBtn.style.display = 'none';
+                });
+            }
+
+            if (cancelReviewBtn) {
+                cancelReviewBtn.addEventListener('click', function() {
+                    reviewForm.style.display = 'none';
+                    writeReviewBtn.style.display = 'block';
+                });
+            }
+
+            // Star rating hover effect
+            const starLabels = document.querySelectorAll('.star-rating label');
+            starLabels.forEach(label => {
+                label.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(1.2)';
+                });
+                label.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

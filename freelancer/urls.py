@@ -25,5 +25,8 @@ urlpatterns = [
     path('project/<int:project_id>/', views.project_card, name='project_card'),
     path('profile', views.profile, name='profile'),
     path('submit-bid/<int:project_id>/', views.submit_bid, name='submit-bid'),
-         path('freelancer/<str:username>/', views.view_freelancer_profile, name='view_freelancer_profile'),
+    path('freelancer/<str:username>/', views.view_freelancer_profile, name='view_freelancer_profile'),
+    path("about/", views.about, name="about"),
+    path('submit-review/<int:freelancer_id>/', views.submit_review, name='submit_review'),
+    path('reviews/<str:username>/', views.view_reviews, name='view-reviews'),
 ]

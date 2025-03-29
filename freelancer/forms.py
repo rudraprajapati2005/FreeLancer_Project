@@ -1,5 +1,5 @@
 from django import forms
-from .models import Freelancer, AboutFreelancer, Client, Project, Users, Bid
+from .models import Freelancer, AboutFreelancer, Client, Project, Users, Bid, Review
 from datetime import date
 
 class FreelancerForm(forms.ModelForm):
@@ -154,3 +154,38 @@ class BidForm(forms.ModelForm):
             if amount < project.budget:
                 raise forms.ValidationError("Bid amount cannot be less than project budget")
         return amount
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        
+        widgets = {
+            'rating': forms.Select(
+                choices=[
+                    (5, '5 - Excellent'),
+                    (4, '4 - Very Good'),
+                    (3, '3 - Good'),
+                    (2, '2 - Fair'),
+                    (1, '1 - Poor')
+                ],
+                attrs={
+                    'class': 'form-control rating-select',
+                    'required': True
+                }
+            ),
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control review-textarea',
+                'placeholder': 'Share your experience working with this freelancer...',
+                'rows': 4,
+                'required': True,
+                'minlength': '10',
+                'maxlength': '1000'
+            })
+        }
+
+    def clean_comment(self):
+        comment = self.cleaned_data.get('comment')
+        if len(comment) < 10:
+            raise forms.ValidationError("Review comment must be at least 10 characters long.")
+        return comment

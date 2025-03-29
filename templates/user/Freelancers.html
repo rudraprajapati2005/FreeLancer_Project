@@ -82,7 +82,7 @@
 <body>
     <div class="container">
         {% if request.session.user_type == 'freelancer' %}
-            {% include 'freelancer/freelancer_navbar.html' %}
+            {% include 'user/navbar.html' %}
         {% else %}
             <div class="navbar">
                 <div class="logo">

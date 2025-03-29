@@ -140,3 +140,48 @@ class Bid(models.Model):
     def __str__(self):
         return f"Bid by {self.freelancer.user.username} on {self.project.title}"
 
+class Review(models.Model):
+    RATING_CHOICES = [
+        (1, '1 - Poor'),
+        (2, '2 - Fair'),
+        (3, '3 - Good'),
+        (4, '4 - Very Good'),
+        (5, '5 - Excellent'),
+    ]
+    
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='reviews_given')
+    freelancer = models.ForeignKey(Freelancer, on_delete=models.CASCADE, related_name='reviews_received')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)  # Make project optional
+    rating = models.IntegerField(choices=RATING_CHOICES)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        super().clean()
+        # If no project is associated, check review count
+        if not self.project:
+            review_count = Review.objects.filter(
+                client=self.client,
+                freelancer=self.freelancer,
+                project__isnull=True
+            ).count()
+            if review_count >= 5:
+                raise ValidationError("You can only submit up to 5 general reviews for a freelancer.")
+
+    class Meta:
+        ordering = ['-created_at']
+        # Add a unique constraint only when project exists
+        constraints = [
+            models.UniqueConstraint(
+                fields=['client', 'freelancer', 'project'],
+                name='unique_project_review',
+                condition=models.Q(project__isnull=False)
+            )
+        ]
+
+    def __str__(self):
+        project_info = f" on {self.project.title}" if self.project else ""
+        return f"Review by {self.client.user.username} for {self.freelancer.user.username}{project_info}"
+
+

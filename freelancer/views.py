@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse
-from .models import Freelancer,AboutFreelancer,Project,Client,Users,Bid 
-from .forms import AboutFreelancerForm,FreelancerForm,ProjectForm,ClientForm,UsersForm
+from django.db import models  # Add this import
+from .models import Freelancer,AboutFreelancer,Project,Client,Users,Bid,Review
+from .forms import AboutFreelancerForm,FreelancerForm,ProjectForm,ClientForm,UsersForm,ReviewForm
 from django.forms.models import model_to_dict
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
@@ -923,7 +924,7 @@ def project_card(request, project_id):
         # Get freelancer profile picture if exists
         try:
             about_freelancer = AboutFreelancer.objects.get(username=bid.freelancer.user.username)
-            if about_freelancer.image:
+            if about_freelancer.image and hasattr(about_freelancer.image, 'url'):
                 bid_dict['profile_pic'] = about_freelancer.image.url
         except AboutFreelancer.DoesNotExist:
             bid_dict['profile_pic'] = None
@@ -1013,7 +1014,8 @@ def view_freelancer_profile(request, username):
             'username': user.username,
             'name': user.name,
             'email': user.email,
-            'skills': freelancer.skills
+            'skills': freelancer.skills,
+            'id': freelancer.id
         }
         
         # Get about freelancer data if exists
@@ -1026,7 +1028,15 @@ def view_freelancer_profile(request, username):
             freelancer_data['links'] = about_freelancer.links
         except AboutFreelancer.DoesNotExist:
             pass
-            
+        
+        # Get reviews with related data
+        reviews = Review.objects.filter(freelancer=freelancer).select_related('client__user', 'project').order_by('-created_at')
+        freelancer_data['reviews_received'] = reviews
+        
+        # Calculate average rating
+        avg_rating = reviews.aggregate(models.Avg('rating'))['rating__avg']
+        freelancer_data['average_rating'] = round(avg_rating, 1) if avg_rating else 0
+        
         return render(request, 'user/freelancer_profile_view.html', {
             'freelancer': freelancer_data,
             'user_type': request.session.get('user_type')
@@ -1035,3 +1045,69 @@ def view_freelancer_profile(request, username):
     except (Users.DoesNotExist, Freelancer.DoesNotExist):
         messages.error(request, 'Freelancer not found.')
         return redirect('view_freelancers')
+
+def about(request):
+    return render(request, 'user/about.html', {
+        'user_type': request.session.get('user_type')
+    })
+
+def submit_review(request, freelancer_id):
+    if request.method == 'POST' and request.session.get('user_type') == 'client':
+        try:
+            freelancer = Freelancer.objects.get(id=freelancer_id)
+            client = Client.objects.get(user__username=request.session.get('username'))
+            
+            # Check review limit for non-project reviews
+            review_count = Review.objects.filter(
+                client=client,
+                freelancer=freelancer,
+                project__isnull=True
+            ).count()
+            
+            if review_count >= 5:
+                messages.error(request, 'You have already submitted the maximum number of reviews (5) for this freelancer.')
+                return redirect('view_freelancer_profile', username=freelancer.user.username)
+            
+            # Create review
+            rating = int(request.POST.get('rating'))
+            comment = request.POST.get('comment')
+            
+            review = Review.objects.create(
+                client=client,
+                freelancer=freelancer,
+                rating=rating,
+                comment=comment,
+                project=None
+            )
+            
+            messages.success(request, 'Review submitted successfully!')
+            
+        except ValidationError as e:
+            messages.error(request, str(e))
+        except Exception as e:
+            messages.error(request, f'Error submitting review: {str(e)}')
+            print(f"Review submission error: {str(e)}")
+            
+        return redirect('view_freelancer_profile', username=freelancer.user.username)
+    return redirect('view_freelancer_profile', username=freelancer.user.username)
+
+def view_reviews(request, username):
+    try:
+        freelancer = Freelancer.objects.get(user__username=username)
+        reviews = Review.objects.filter(freelancer=freelancer).select_related('client__user', 'project').order_by('-created_at')
+        
+        # Calculate average rating
+        avg_rating = reviews.aggregate(models.Avg('rating'))['rating__avg'] or 0
+        
+        context = {
+            'freelancer': freelancer,
+            'reviews': reviews,
+            'avg_rating': round(avg_rating, 1),
+            'review_count': reviews.count()
+        }
+        
+        return render(request, 'user/view_reviews.html', context)
+        
+    except Freelancer.DoesNotExist:
+        messages.error(request, 'Freelancer not found')
+        return redirect('home')

@@ -29,7 +29,7 @@
 <body>
     {% if freelancer.username %}
     <div class="container">
-        {% include 'freelancer/freelancer_navbar.html' %}
+        {% include 'user/navbar.html' %}
 
         <div class="profile-content">
             <div class="profile-left">
@@ -183,9 +183,6 @@
                                     <div id="selectedSkills"></div>
                                     <input type="hidden" id="selected_Skills" name="description">
                                 </div>
-                                <hr>
-                                <font> Selected Skills</font>
-                                <font class="new-selected-skills" ></font>
                                 <div class="form-buttons">
                                     <button type="submit" class="save-btn">Save</button>
                                     <button type="button" class="cancel-btn">Cancel</button>
@@ -233,7 +230,6 @@
                             <li><a href="#">Privacy Policy</a></li>
                         </ul>
                     </div>
-
                     <div class="footer-col">
                         <h4>For Clients</h4>
                         <ul>
@@ -243,7 +239,6 @@
                             <li><a href="#">Payment & Security</a></li>
                         </ul>
                     </div>
-
                     <div class="footer-col">
                         <h4>For Freelancers</h4>
                         <ul>
@@ -253,7 +248,6 @@
                             <li><a href="#">Support</a></li>
                         </ul>
                     </div>
-
                     <div class="footer-col">
                         <h4>Follow Us</h4>
                         <div class="social-links">
@@ -304,11 +298,8 @@
                 updateFileInput.addEventListener('change', submitUpdateFormOnFileSelect);
                 console.log('Event listener added to update file input');
             }
-        });
-        // description form
-        document.addEventListener('DOMContentLoaded', function() {
-            const editableSections = document.querySelectorAll('.editable-section');
 
+            const editableSections = document.querySelectorAll('.editable-section');
             editableSections.forEach(section => {
                 const addDescription = section.querySelector('.add-description');
                 const editIcon = section.querySelector('.edit-icon');
@@ -352,137 +343,135 @@
                     cancelBtn.addEventListener('click', hideForm);
                 }
             });
-        });
 
-        // GitHub link validation
-        function validateGitLinks(form) {
-            const textarea = form.querySelector('textarea[name="description"]');
-            const links = textarea.value.split('\n').filter(link => link.trim() !== '');
-            
-            const githubRegex = /^https:\/\/github\.com\/[\w-]+(?:\/[\w.-]+)*\/?$/;
-            let isValid = true;
-            let errorMessage = '';
+            // GitHub link validation
+            function validateGitLinks(form) {
+                const textarea = form.querySelector('textarea[name="description"]');
+                const links = textarea.value.split('\n').filter(link => link.trim() !== '');
+                const githubRegex = /^https:\/\/github\.com\/[\w-]+(?:\/[\w.-]+)*\/?$/;
+                let isValid = true;
+                let errorMessage = '';
 
-            for (const link of links) {
-                if (link.trim() && !githubRegex.test(link.trim())) {
-                    isValid = false;
-                    errorMessage = 'Please enter valid GitHub links (e.g., https://github.com/username/repository)';
-                    break;
+                for (const link of links) {
+                    if (link.trim() && !githubRegex.test(link.trim())) {
+                        isValid = false;
+                        errorMessage = 'Please enter valid GitHub links (e.g., https://github.com/username/repository)';
+                        break;
+                    }
                 }
+
+                if (!isValid) {
+                    alert(errorMessage);
+                    return false;
+                }
+
+                return true;
             }
 
-            if (!isValid) {
-                alert(errorMessage);
-                return false;
+            // Skills validation and handling
+            function validateSkills(form) {
+                const selectedSkills = document.getElementById('selected_Skills').value;
+                if (!selectedSkills.trim()) {
+                    alert('Please select at least one skill');
+                    return false;
+                }
+                return true;
             }
 
-            return true;
-        }
+            document.addEventListener('DOMContentLoaded', function() {
+                const allSkills = [
+                    { value: "web_development", text: "Web Development" },
+                    { value: "graphic_design", text: "Graphic Design" },
+                    { value: "content_writing", text: "Content Writing" },
+                    { value: "digital_marketing", text: "Digital Marketing" },
+                    { value: "data_entry", text: "Data Entry" },
+                    { value: "video_editing", text: "Video Editing" },
+                    { value: "mobile_app_development", text: "Mobile App Development" },
+                    { value: "seo", text: "SEO" },
+                    { value: "copywriting", text: "Copywriting" },
+                    { value: "translation", text: "Translation" },
+                    { value: "social_media_management", text: "Social Media Management" },
+                    { value: "photography", text: "Photography" },
+                    { value: "virtual_assistance", text: "Virtual Assistance" },
+                    { value: "software_development", text: "Software Development" },
+                    { value: "ui_ux_design", text: "UI/UX Design" },
+                    { value: "project_management", text: "Project Management" },
+                    { value: "illustration", text: "Illustration" },
+                    { value: "music_production", text: "Music Production" },
+                    { value: "3d_modeling", text: "3D Modeling" },
+                    { value: "email_marketing", text: "Email Marketing" },
+                    { value: "copy_editing", text: "Copy Editing" },
+                    { value: "resume_writing", text: "Resume Writing" }
+                ];
 
-        // Skills validation and handling
-        function validateSkills(form) {
-            const selectedSkills = document.getElementById('selected_Skills').value;
-            if (!selectedSkills.trim()) {
-                alert('Please select at least one skill');
-                return false;
-            }
-            return true;
-        }
+                const searchInput = document.getElementById('searchSkills');
+                const skillsList = document.getElementById('skillsList');
+                const selectedSkillsContainer = document.getElementById('selectedSkills');
+                const hiddenInput = document.getElementById('selected_Skills');
+                let selectedSkills = [];
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const allSkills = [
-                { value: "web_development", text: "Web Development" },
-                { value: "graphic_design", text: "Graphic Design" },
-                { value: "content_writing", text: "Content Writing" },
-                { value: "digital_marketing", text: "Digital Marketing" },
-                { value: "data_entry", text: "Data Entry" },
-                { value: "video_editing", text: "Video Editing" },
-                { value: "mobile_app_development", text: "Mobile App Development" },
-                { value: "seo", text: "SEO" },
-                { value: "copywriting", text: "Copywriting" },
-                { value: "translation", text: "Translation" },
-                { value: "social_media_management", text: "Social Media Management" },
-                { value: "photography", text: "Photography" },
-                { value: "virtual_assistance", text: "Virtual Assistance" },
-                { value: "software_development", text: "Software Development" },
-                { value: "ui_ux_design", text: "UI/UX Design" },
-                { value: "project_management", text: "Project Management" },
-                { value: "illustration", text: "Illustration" },
-                { value: "music_production", text: "Music Production" },
-                { value: "3d_modeling", text: "3D Modeling" },
-                { value: "email_marketing", text: "Email Marketing" },
-                { value: "copy_editing", text: "Copy Editing" },
-                { value: "resume_writing", text: "Resume Writing" }
-            ];
+                function addSkill(skill) {
+                    if (!selectedSkills.some(s => s.value === skill.value)) {
+                        selectedSkills.push(skill);
+                        updateSelectedSkills();
+                    }
+                }
 
-            const searchInput = document.getElementById('searchSkills');
-            const skillsList = document.getElementById('skillsList');
-            const selectedSkillsContainer = document.getElementById('selectedSkills');
-            const hiddenInput = document.getElementById('selected_Skills');
-            let selectedSkills = [];
-
-            function addSkill(skill) {
-                if (!selectedSkills.some(s => s.value === skill.value)) {
-                    selectedSkills.push(skill);
+                function removeSkill(skill) {
+                    selectedSkills = selectedSkills.filter(s => s.value !== skill.value);
                     updateSelectedSkills();
                 }
-            }
 
-            function removeSkill(skill) {
-                selectedSkills = selectedSkills.filter(s => s.value !== skill.value);
-                updateSelectedSkills();
-            }
-
-            function updateSelectedSkills() {
-                selectedSkillsContainer.innerHTML = '';
-                selectedSkills.forEach(skill => {
-                    const skillTag = document.createElement('span');
-                    skillTag.className = 'skill-tag';
-                    skillTag.textContent = skill.text + ' ×';
-                    skillTag.addEventListener('click', function() {
-                        removeSkill(skill);
+                function updateSelectedSkills() {
+                    selectedSkillsContainer.innerHTML = '';
+                    selectedSkills.forEach(skill => {
+                        const skillTag = document.createElement('span');
+                        skillTag.className = 'skill-tag';
+                        skillTag.textContent = skill.text + ' ×';
+                        skillTag.addEventListener('click', function() {
+                            removeSkill(skill);
+                        });
+                        selectedSkillsContainer.appendChild(skillTag);
                     });
-                    selectedSkillsContainer.appendChild(skillTag);
-                });
-
-                hiddenInput.value = selectedSkills.map(skill => skill.value).join(',');
-            }
-
-            // Initialize selected skills from existing data
-            const preSelectedSkills = "{{freelancer.skills}}";
-            if (preSelectedSkills) {
-                const skills = preSelectedSkills.split(',').map(skill => skill.trim());
-                skills.forEach(skillValue => {
-                    const skill = allSkills.find(s => s.value === skillValue);
-                    if (skill) {
-                        addSkill(skill);
-                    }
-                });
-            }
-
-            searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase().trim();
-                skillsList.innerHTML = '';
-
-                if (query === '') {
-                    return;
+                    hiddenInput.value = selectedSkills.map(skill => skill.value).join(',');
                 }
 
-                const filteredSkills = allSkills.filter(skill => 
-                    skill.text.toLowerCase().includes(query) && 
-                    !selectedSkills.some(s => s.value === skill.value)
-                );
-
-                filteredSkills.forEach(skill => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = skill.text;
-                    listItem.style.cursor = 'pointer';
-                    listItem.addEventListener('click', function() {
-                        addSkill(skill);
-                        searchInput.value = '';
-                        skillsList.innerHTML = '';
+                // Initialize selected skills from existing data
+                const preSelectedSkills = "{{freelancer.skills}}";
+                if (preSelectedSkills) {
+                    const skills = preSelectedSkills.split(',').map(skill => skill.trim());
+                    skills.forEach(skillValue => {
+                        const skill = allSkills.find(s => s.value === skillValue);
+                        if (skill) {
+                            addSkill(skill);
+                        }
                     });
-                    skillsList.appendChild(listItem);
+                }
+
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    skillsList.innerHTML = '';
+
+                    if (query === '') {
+                        return;
+                    }
+
+                    const filteredSkills = allSkills.filter(skill => 
+                        skill.text.toLowerCase().includes(query) && 
+                        !selectedSkills.some(s => s.value === skill.value)
+                    );
+
+                    filteredSkills.forEach(skill => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = skill.text;
+                        listItem.style.cursor = 'pointer';
+                        listItem.addEventListener('click', function() {
+                            addSkill(skill);
+                            searchInput.value = '';
+                            skillsList.innerHTML = '';
+                        });
+                        skillsList.appendChild(listItem);
+                    });
                 });
             });
         });

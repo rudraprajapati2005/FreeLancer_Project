@@ -16,3 +16,15 @@ def split(value, delimiter=','):
 @register.filter
 def trim(value):
     return value.strip()
+
+@register.filter
+def get_range(value):
+    return range(value)
+
+@register.filter
+def make_list(value):
+    """
+    Returns a list from a string.
+    Example usage: {{ "12345"|make_list }}
+    """
+    return list(value)
