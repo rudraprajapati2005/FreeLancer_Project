@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/Freelancers.css' %}">
     <link rel="stylesheet" href="{% static 'css/Home.css' %}">
     <link rel="stylesheet" href="{% static 'css/Project_information.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .freelancer-card {
             display: flex;
@@ -24,6 +25,20 @@
             height: 100px;
             border-radius: 50%;
             margin-right: 15px;
+        }
+        .profile-image-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .profile-image-placeholder i {
+            font-size: 2.5rem;
+            color: #ccd0d5;
         }
         .freelancer-info {
             flex: 1;
@@ -100,13 +115,15 @@
                     <div class="freelancer-card">
                         <div class="profile-picture">
                             {% if freelancer.profile_pic %}
-                                <img src="{{ freelancer.profile_pic }}" alt="Freelancer Image">
+                                <img src="{{ freelancer.profile_pic }}" alt="{{ freelancer.name }}'s image">
                             {% else %}
-                                <img src="{% static 'images/default-profile.png' %}" alt="Default Image">
+                                <div class="profile-image-placeholder">
+                                    <i class="fas fa-user"></i>
+                                </div>
                             {% endif %}
                         </div>
                         <div class="freelancer-info">
-                            <h2>{{ freelancer.user.name }}</h2>
+                            <h2>{{ freelancer.name }}</h2>
                             <p><strong>Expertise:</strong> {{ freelancer.skills }}</p>
                             <p class="hourly-rate"><strong>Hourly Rate:</strong> ${{ freelancer.hourly_rate|default:"Negotiable" }}/hr</p>
                             <button class="hire-btn">Hire Me</button>

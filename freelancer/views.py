@@ -702,15 +702,32 @@ def browse_projects(request):
     projects = Project.objects.all().order_by('-created_at')
     return render(request, 'user/Browse_projects.html', {'projects': projects})
 def view_freelancers(request):
-    freelancers = Freelancer.objects.all()
+    # Get all freelancers with their related user data
+    freelancers = Freelancer.objects.select_related('user').all()
     
+    freelancer_list = []
     for fr in freelancers:
-        fr.skills = fr.skills.replace('_', ' ')
-        if AboutFreelancer.objects.filter(username=fr.user.username):
-            user_freelancer=AboutFreelancer.objects.get(username=fr.user.username)
-            fr.profile_pic=user_freelancer.image.url
+        freelancer_dict = {
+            'username': fr.user.username,  # Get username from User model
+            'name': fr.user.name,         # Get name from User model
+            'skills': fr.skills.replace('_', ' ') if fr.skills else '',
+            'profile_pic': None
+        }
         
-    return render(request, 'user/Freelancers.html', {'freelancers':freelancers})
+        # Get profile picture if exists
+        try:
+            about_freelancer = AboutFreelancer.objects.get(username=fr.user.username)
+            if about_freelancer.image and hasattr(about_freelancer.image, 'url'):
+                freelancer_dict['profile_pic'] = about_freelancer.image.url
+        except AboutFreelancer.DoesNotExist:
+            pass
+            
+        freelancer_list.append(freelancer_dict)
+        
+    return render(request, 'user/Freelancers.html', {
+        'freelancers': freelancer_list,
+        'user_type': request.session.get('user_type')  # Add user_type to context
+    })
 
 def freelancer_home(request):
     username = request.session.get('username')
