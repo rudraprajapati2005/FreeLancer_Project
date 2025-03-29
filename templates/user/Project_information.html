@@ -229,32 +229,36 @@
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <div class="logo">
-                <h2><a href="{% url 'home' %}">FreeLancer</a></h2>
-            </div>
-            <div class="navlinks">
-                <ul id="navs">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-                    <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
-                    {% if request.session.user_type == 'freelancer' %}
-                        <li><a href="{% url 'freelancer-home' %}">Dashboard</a></li>
-                        <li><a href="{% url 'freelancer-logout' %}">Logout</a></li>
-                    {% elif request.session.user_type == 'client' %}
-                        <li><a href="{% url 'client-home-page' %}">Dashboard</a></li>
-                        <li><a href="{% url 'client-logout' %}">Logout</a></li>
-                    {% else %}
-                        <li><a href="{% url 'user_type' %}">Login/Register</a></li>
+        {% if user_type == 'freelancer' %}
+            {% include 'freelancer/freelancer_navbar.html' %}
+        {% else %}
+            <div class="navbar">
+                <div class="logo">
+                    <h2><a href="{% url 'home' %}">FreeLancer</a></h2>
+                </div>
+                <div class="navlinks">
+                    <ul id="navs">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
+                        <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
+                        {% if request.session.user_type == 'freelancer' %}
+                            <li><a href="{% url 'freelancer-home' %}">Dashboard</a></li>
+                            <li><a href="{% url 'freelancer-logout' %}">Logout</a></li>
+                        {% elif request.session.user_type == 'client' %}
+                            <li><a href="{% url 'client-home-page' %}">Dashboard</a></li>
+                            <li><a href="{% url 'client-logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'user_type' %}">Login/Register</a></li>
+                        {% endif %}
+                    </ul>
+                    {% if request.session.user_type == 'client' %}
+                        <div class="postproject">
+                            <a href="{% url 'client-create-project' %}">Post a Project</a>
+                        </div>
                     {% endif %}
-                </ul>
-                {% if request.session.user_type == 'client' %}
-                    <div class="postproject">
-                        <a href="{% url 'client-create-project' %}">Post a Project</a>
-                    </div>
-                {% endif %}
+                </div>
             </div>
-        </div>
+        {% endif %}
          
         <!-- assuming that 'project' object passed from django views -->
         <div class="Projectinfo">
@@ -267,7 +271,10 @@
                 <div class="project-details">
                     <div class="details">
                         <h2 class="project-heading">
-                                {{project.title}}
+                            {{project.title}}
+                            <!-- Debug info -->
+                       
+                        
                         </h2>
                         <span class="project-description">
                             {{project.description}}
@@ -321,22 +328,13 @@
                         <div id="bidModal" class="modal">
                             <div class="modal-content">
                                 <span class="close">&times;</span>
-                                <h2>Place Your Bid</h2>
-                                {% if messages %}
-                                <div class="messages">
-                                    {% for message in messages %}
-                                    <div class="alert alert-{{ message.tags }}">
-                                        {{ message }}
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                                <form method="POST" action="{% url 'submit-bid' project.id %}" 
+                                <h2>Place Your Bid  </h2>
+                                <p style="color : grey ; font-size: 10px  ;">PID: {{project.id}}</p>
+                                <form method="POST" 
+                                      action="{% url 'submit-bid' project.id %}" 
                                       enctype="multipart/form-data" 
-                                      onsubmit="return validateBidForm()"
                                       id="bidForm">
                                     {% csrf_token %}
-                                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                     <div class="form-group">
                                         <label>Bid Amount (Maximum: ${{ project.budget }})</label>
                                         <input type="number" name="amount" id="bid_amount" required>
@@ -425,32 +423,38 @@
     </div>
     <script src="{% static 'scripts/Project_information.js' %}"></script>
     <script>
-        // Add this to your existing script section
+        // Modal functions
         function openBidModal() {
             document.getElementById("bidModal").style.display = "block";
         }
 
-        // Close modal when clicking the X
         document.querySelector(".close").onclick = function() {
             document.getElementById("bidModal").style.display = "none";
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target == document.getElementById("bidModal")) {
                 document.getElementById("bidModal").style.display = "none";
             }
         }
 
-        function validateBidForm() {
+        // Form submission
+        document.getElementById('bidForm').addEventListener('submit', function(e) {
             const amount = parseFloat(document.getElementById('bid_amount').value);
             
             if (amount < 0) {
-                alert('Bid amount must be greater than 0 or equal to 0');
+                e.preventDefault();
+                alert('Bid amount must be greater than or equal to 0');
                 return false;
             }
+
+            const submitBtn = this.querySelector('.submit-bid');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+            
+            // Let the form submit normally - no AJAX
             return true;
-        }
+        });
     </script>
 </body>
 </html>

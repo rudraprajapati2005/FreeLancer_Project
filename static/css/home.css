@@ -52,7 +52,7 @@ body::before {
 .navbar .navlinks {
   display: flex;
   justify-content: space-between;
-  width : 80%;
+  width : 85%;
   align-items: center;
 }
 .navbar .navlinks ul {
@@ -63,7 +63,7 @@ body::before {
 .navbar .navlinks ul li{
   font-weight: 600;
   font-size: 1.1rem;
-  margin : 14px 0;
+  margin : 14px 0; 
 }
 .navbar .navlinks ul li a {
   color:  black;

@@ -90,7 +90,6 @@ STATUS_CHOICES = [
 ]
 
 class Project(models.Model):
-    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     category = models.CharField(max_length=100)
@@ -101,6 +100,13 @@ class Project(models.Model):
     posted_by = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='posted_projects')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Project'
+        verbose_name_plural = 'Projects'
+
+    def __str__(self):
+        return f"Project #{self.id} - {self.title}"
 
 class Bid(models.Model):
     BID_STATUS_CHOICES = [

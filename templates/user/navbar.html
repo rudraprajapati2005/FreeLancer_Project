@@ -32,27 +32,14 @@
         {% endif %}
         </ul>
 
-        {% if request.session %}
-        <!-- profile -->
-        <!-- need to add here AboutFreelancer of actual user -->
-        <div class="profile-container">
-          <div class="profile-icon">
-           
-            {% if client.profile_pic %}
-            <a href="{% url 'profile' %}">
-              <i class="fas fa-user"></i>
-            <img src="{{ client.profile_pic }}"  alt=""/>
-            </a>
-            {% endif %}
-        </div>
-        </div>
-        {% endif %}
-
+ 
+        {% if request.session.user_type != "freelancer" %}
         <div class="postproject">
           <!-- {% if user.is_authenticated %} -->
           <!-- {% endif %} -->
-          <a href="{% url 'user_type' %}">Hire a Freelancer</a>
+          <a href="{% url 'user_type' %}">Post Project</a>
         </div>
+        {% endif %}
       </div>
     </div>
     <!-- Add CSS styles -->

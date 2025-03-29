@@ -29,28 +29,7 @@
 <body>
     {% if freelancer.username %}
     <div class="container">
-        <div class="navbar">
-            <div class="logo">
-                <a href="#">
-                    <img src=" " alt="Logo">
-                </a>
-            </div>
-            <div class="navlinks">
-                <ul id="navs">
-                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
-                    <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-                    <li><a href="#">Manage Projects</a></li>
-                    <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-                <div class="postproject">
-                    <a href="{% url 'user_type' %}">Home Page</a>
-                </div>
-                <div class="logout">
-                    <a href="{% url 'freelancer-logout' %}">Logout</a>
-                </div>
-            </div>
-        </div>
+        {% include 'freelancer/freelancer_navbar.html' %}
 
         <div class="profile-content">
             <div class="profile-left">

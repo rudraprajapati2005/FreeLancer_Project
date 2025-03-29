@@ -12,28 +12,32 @@
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <div class="logo">
-                <a href="#">
-                    <img src="" alt="Logo">
-                </a>
-            </div>
-            <div class="navlinks">
-                <ul id="navs">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'client-my-projects' %}" class="active">My Projects</a></li>
-                    <li><a href="{% url 'client-create-project' %}">Post Project</a></li>
-                    <li><a href="{% url 'view_freelancers' %}">Find Freelancers</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
-                <div class="postproject">
-                    <a href="{% url 'client-create-project' %}">Post New Project</a>
+        {% if user_type == 'client' %}
+            {% include 'client/client_navbar.html' %}
+        {% else %}
+            <div class="navbar">
+                <div class="logo">
+                    <a href="#">
+                        <img src="" alt="Logo">
+                    </a>
                 </div>
-                <div class="logout">
-                    <a href="{% url 'client-logout' %}">Logout</a>
+                <div class="navlinks">
+                    <ul id="navs">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'client-my-projects' %}" class="active">My Projects</a></li>
+                        <li><a href="{% url 'client-create-project' %}">Post Project</a></li>
+                        <li><a href="{% url 'view_freelancers' %}">Find Freelancers</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
+                    <div class="postproject">
+                        <a href="{% url 'client-create-project' %}">Post New Project</a>
+                    </div>
+                    <div class="logout">
+                        <a href="{% url 'client-logout' %}">Logout</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
         
         <div class="project-container">
             <!-- Project Section -->
