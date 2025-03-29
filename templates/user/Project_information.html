@@ -8,6 +8,7 @@
     {% load custom_filters%}
     <link rel="stylesheet" href="{% static 'css/Project_information.css' %}">
     <link rel="stylesheet" href="{% static 'css/Home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .modal {
             display: none;
@@ -50,6 +51,159 @@
 
         .navlinks ul li a[href$="logout"]:hover {
             color: #c82333;
+        }
+        
+        .proposal {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .proposal:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .proposal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        .bidder-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bidder-avatar, .bidder-avatar-placeholder {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .bidder-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bidder-name {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .bidder-username {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .bid-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #27ae60;
+            background: #e8f5e9;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .bid-details {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        .technical-approach, .milestones {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .technical-approach h4, .milestones h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .attachments {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .attachments a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3498db;
+            text-decoration: none;
+            padding: 8px 15px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .attachments a:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .proposal-time {
+            display: block;
+            margin-top: 15px;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        .no-proposals {
+            text-align: center;
+            padding: 50px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            color: #7f8c8d;
+        }
+
+        .no-proposals i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #bdc3c7;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Animation for new bids */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
     <!-- Add this to ensure CSRF token is available via JavaScript -->
@@ -145,13 +299,13 @@
                         <h2>Client Information</h2>
                         <div class="client-card">
                             <div class="client-details">
-                                <h3 class="client-name">{{project.username}}</h3>  <!-- Replace with {{project.client.name}} -->
-                                <p class="client-location">📍 New York, USA</p> <!-- Replace with {{project.client.location}} -->
-                                <p class="client-rating">⭐ 4.8 (25 Reviews)</p>  <!-- Replace with {{project.client.rating}} -->
+                                <h3 class="client-name">{{project.username}}</h3>
+                                <p class="client-location">📍 New York, USA</p>
+                                <p class="client-rating">⭐ 4.8 (25 Reviews)</p>
                             </div>
                             <div class="client-meta">
-                                <p><strong>Projects Posted:</strong> 10</p> <!-- Replace with {{project.client.total_projects}} -->
-                                <p><strong>Member Since:</strong> 2020</p> <!-- Replace with {{project.client.member_since}} -->
+                                <p><strong>Projects Posted:</strong> 10</p>
+                                <p><strong>Member Since:</strong> 2020</p>
                             </div>
                         </div>
                     </div>
@@ -215,20 +369,57 @@
                 </div>
             </div>
             <div class="tab2-project-proposals">
-                <!-- fetch proposals -->
-                 <!-- {% for prop in Project.proposals %} -->
-                 <div class="proposal">
-                    <div class="proposal-header">
-                        <h3 class="bidder-name">John Doe</h3> <!-- {{ prop.bidder_name }} -->
-                        <span class="bid-amount">$1200 USD</span> <!-- {{ prop.bid_amount }} -->
+                {% if bids %}
+                    {% for bid in bids %}
+                    <div class="proposal">
+                        <div class="proposal-header">
+                            <div class="bidder-info">
+                                {% if bid.profile_pic %}
+                                    <img src="{{ bid.profile_pic }}" alt="{{ bid.freelancer_name }}" class="bidder-avatar">
+                                {% else %}
+                                    <div class="bidder-avatar-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="bidder-details">
+                                    <h3 class="bidder-name">{{ bid.freelancer_name }}</h3>
+                                    <span class="bidder-username">@{{ bid.freelancer_username }}</span>
+                                </div>
+                            </div>
+                            <span class="bid-amount">${{ bid.amount }} USD</span>
+                        </div>
+                        <div class="bid-details">
+                            <p ><strong>Delivery Time:</strong> {{ bid.delivery_time }} days</p>
+                            <p class="proposal-description">{{ bid.proposal_text }}</p>
+                            {% if bid.technical_approach %}
+                                <div class="technical-approach">
+                                    <h4>Technical Approach</h4>
+                                    <p>{{ bid.technical_approach }}</p>
+                                </div>
+                            {% endif %}
+                            {% if bid.milestone_breakdown %}
+                                <div class="milestones">
+                                    <h4>Milestones</h4>
+                                    <p>{{ bid.milestone_breakdown }}</p>
+                                </div>
+                            {% endif %}
+                            {% if bid.attachments %}
+                                <div class="attachments">
+                                    <a href="{{ bid.attachments.url }}" target="_blank">
+                                        <i class="fas fa-paperclip"></i> View Attachment
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <span class="proposal-time">Submitted: {{ bid.submitted_time|timesince }} ago</span>
                     </div>
-                    <p class="proposal-description">
-                        I have 5+ years of experience in web development and can complete this project efficiently.
-                        <!-- {{ prop.description }} -->
-                    </p>
-                    <span class="proposal-time">Submitted: 2 hours ago</span> <!-- {{ prop.submitted_time }} -->
-                </div>
-                <!-- {% endfor %} -->
+                    {% endfor %}
+                {% else %}
+                    <div class="no-proposals">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No bids have been submitted yet</p>
+                    </div>
+                {% endif %}
             </div>
          </div> 
     </div>

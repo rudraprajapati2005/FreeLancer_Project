@@ -703,15 +703,29 @@ def browse_projects(request):
     return render(request, 'user/Browse_projects.html', {'projects': projects})
 
 def view_freelancers(request):
-    freelancers = Freelancer.objects.all()
+    # Get all freelancers with their related user data
+    freelancers = Freelancer.objects.select_related('user').all()
     
+    freelancer_list = []
     for fr in freelancers:
-        fr.skills = fr.skills.replace('_', ' ')
-        if AboutFreelancer.objects.filter(username=fr.username):
-            user_freelancer=AboutFreelancer.objects.get(username=fr.username)
-            fr.profile_pic=user_freelancer.image.url
+        freelancer_dict = {
+            'username': fr.user.username,  # Get username from User model
+            'name': fr.user.name,         # Get name from User model
+            'skills': fr.skills.replace('_', ' ') if fr.skills else '',
+            'profile_pic': None
+        }
         
-    return render(request, 'user/Freelancers.html', {'freelancers': freelancers})
+        # Get profile picture if exists
+        try:
+            about_freelancer = AboutFreelancer.objects.get(username=fr.user.username)
+            if about_freelancer.image:
+                freelancer_dict['profile_pic'] = about_freelancer.image.url
+        except AboutFreelancer.DoesNotExist:
+            pass
+            
+        freelancer_list.append(freelancer_dict)
+        
+    return render(request, 'user/Freelancers.html', {'freelancers': freelancer_list})
 
 def freelancer_home(request):
     username = request.session.get('username')
@@ -889,9 +903,33 @@ def project_card(request, project_id):
     client_user_info = model_to_dict(client_info_model.user)
     project_dict.update(client_user_info)
     project_dict.update(client_info_dict)
+    
+    # Get all bids for this project with freelancer info
+    bids = Bid.objects.filter(project=project).select_related('freelancer__user')
+    bid_list = []
+    for bid in bids:
+        bid_dict = model_to_dict(bid)
+        # Add freelancer user details from the Users model
+        bid_dict['freelancer_name'] = bid.freelancer.user.name
+        bid_dict['freelancer_username'] = bid.freelancer.user.username
+
+        # Get freelancer profile picture if exists
+        try:
+            about_freelancer = AboutFreelancer.objects.get(username=bid.freelancer.user.username)
+            if about_freelancer.image:
+                bid_dict['profile_pic'] = about_freelancer.image.url
+        except AboutFreelancer.DoesNotExist:
+            bid_dict['profile_pic'] = None
+            
+        # Format the time properly
+        bid_dict['submitted_time'] = bid.created_at
+        bid_list.append(bid_dict)
+        
+    print("Bid list:", bid_list)  # Debug print to see the data
     return render(request, "user/Project_information.html", {
         'project': project_dict,
-        'csrf_token': csrf_token
+        'csrf_token': csrf_token,
+        'bids': bid_list
     })
 
 def profile(request):
