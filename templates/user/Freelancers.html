@@ -81,33 +81,7 @@
 </head>
 <body>
     <div class="container">
-        {% if request.session.user_type == 'freelancer' %}
-            {% include 'user/navbar.html' %}
-        {% else %}
-            <div class="navbar">
-                <div class="logo">
-                    <h2><a href="{% url 'home' %}">FreeLancer</a></h2>
-                </div>
-                <div class="navlinks">
-                    <ul id="navs">
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'browse_projects' %}">Browse Projects</a></li>
-                        <li><a href="{% url 'view_freelancers' %}">Freelancers</a></li>
-                        {% if request.session.user_type == 'client' %}
-                            <li><a href="{% url 'client-home-page' %}">Dashboard</a></li>
-                            <li><a href="{% url 'client-logout' %}">Logout</a></li>
-                        {% else %}
-                            <li><a href="{% url 'user_type' %}">Login/Register</a></li>
-                        {% endif %}
-                    </ul>
-                    {% if request.session.user_type == 'client' %}
-                        <div class="postproject">
-                            <a href="{% url 'client-create-project' %}">Post a Project</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
+        {% include 'user/navbar.html' %}
 
         <div class="freelancers-container">
             <div class="freelancer-filter">
@@ -150,6 +124,7 @@
                 </div>
             </div>
         </div>
+        {% include 'user/footer.html'%}
     </div>
     <script type="module" src="{% static 'scripts/Freelancers.js' %}"></script>
 </body>
